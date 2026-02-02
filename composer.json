@@ -1,0 +1,12 @@
+{
+    "name": "phpmailer/phpmailer",
+    "description": "+",
+    "autoload": {
+        "psr-4": {
+            "Phpmailer\\Phpmailer\\": "src/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

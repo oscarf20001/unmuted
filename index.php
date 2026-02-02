@@ -1,0 +1,66 @@
+<!--
+=================================================
+This Code was written by Oscar Streich
+© 2026 Oscar Streich
+=================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unmuted - Zeig, wer du bist! Ticketreservierung</title>
+
+    <!-- STYLE SHEETS -->
+    <link rel="stylesheet" href="styles/main.css">          <!-- Default-Style der Seite -->
+    <link rel="stylesheet" href="styles/inputFields.css">   <!-- Style für alle Input-Felder -->
+
+    <!-- JAVASCRIPTS -->
+    <script type="module" src="javascript/main.js"></script>
+    <script type="module" src="javascript/updatePriceTag.js"></script>
+     <script type="module" src="javascript/ticket.js"></script>
+</head>
+<body>
+    <!--
+    =================================================
+    KOPFZEILE
+    =================================================
+    -->
+    <header>
+        <?php
+            include 'htmlStructure/header.php';
+        ?>
+    </header>
+
+    <!--
+    =================================================
+    HAUPTFENSTER
+    =================================================
+    -->
+    <main>
+        <?php
+            include 'htmlStructure/main.php';
+        ?>
+    </main>
+
+    <!--
+    =================================================
+    FUßZEILE
+    =================================================
+    -->
+    <footer>
+        <?php
+            include 'htmlStructure/footer.php';
+        ?>
+    </footer>
+
+    <!--
+    =================================================
+    JAVASCRIPT
+    =================================================
+    -->
+    <script>
+
+    </script>
+</body>
+</html>

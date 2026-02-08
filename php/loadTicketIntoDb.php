@@ -27,10 +27,17 @@ $data = json_decode(file_get_contents('php://input'), true);
  */
 
 function fail($msg) {
+
+    include 'oscarsErrorMail.php';
+
+    $errorHandlingMailResult = informOscar($mailHost,
+    $mailUsername,
+    $mailPassword,
+    $mailPort);
+
     echo json_encode([
         'success' => false,
-        'message'     => 'Handover failed',
-        'error'   => $msg
+        'message'     => $msg
     ]);
     exit;
 }
@@ -149,7 +156,23 @@ if(!$insert['success']){
 
 require_once 'pleasePayEmail.php';
 
+$mailResult = sendPleasePayEmail(
+    $email,
+    $vorname,
+    $ticketCount,
+    $price,
+    $day,
+    $mailHost,
+    $mailUsername,
+    $mailPassword,
+    $mailPort
+);
+
+if ($mailResult !== true) {
+    fail('Mailversand fehlgeschlagen: ' . $mailResult);
+}
+
 echo json_encode([
     'success' => true,
-    'msg' => 'Handover successfull'
+    'message' => 'Successfully wrote ticket!'
 ]);

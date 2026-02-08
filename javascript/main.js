@@ -1,6 +1,10 @@
+import { deactiveAll } from "./messages.js";
 import { createTicket } from "./ticket.js";
 
 const form = document.getElementById('ticketWrapper');
+
+// Deactive all Messages from MessageBox onload
+deactiveAll();
 
 form.addEventListener('submit', (event) => {
     event.preventDefault(); // verhindert Reload

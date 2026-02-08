@@ -22,7 +22,6 @@
         <p>Vorstellung am:<sup>*</sup></p>
         <input type="radio" id="11-03-2026-19:00:00" name="dayOfPresentation" required="" value="11-03-2026 19:00:00">
         <label for="11-03-2026-19:00:00">MI. 11.03.2026, 19:00 Uhr</label>
-        <br>
         <input type="radio" id="12-03-2026-19:00:00" name="dayOfPresentation" required="" value="12-03-2026 19:00:00">
         <label for="12-03-2026-19:00:00">DO. 12.03.2026, 19:00 Uhr</label>
     </div>
@@ -36,7 +35,7 @@
             <option value="4">4 Tickets</option>
             <option value="5">5 Tickets</option>
         </select>
-        <label for="quantity">Tickets:<sup>*</sup></label>
+        <label for="quantity" id="quantityLabel">Tickets:<sup>*</sup></label>
     </div>
 
     <!-- price -->

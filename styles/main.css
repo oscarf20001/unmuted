@@ -1,0 +1,264 @@
+:root {
+  /* =========================
+     Core Backgrounds
+     ========================= */
+  --color-bg-main: #0f0f12;
+  --color-bg-secondary: #1a1c22;
+  --color-bg-tertiary: #242732;
+
+  /* =========================
+     Accent Colors
+     ========================= */
+  --color-accent: #950b25;
+  --color-accent-hover: #b31235;
+
+  /* =========================
+     Text Colors
+     ========================= */
+  --color-text-primary: #e6e7eb;
+  --color-text-secondary: #b5b8c2;
+  --color-text-muted: #7e828f;
+
+  /* =========================
+     Borders & Dividers
+     ========================= */
+  --color-border-subtle: #242732;
+  --color-border-strong: #2f3342;
+
+  /* =========================
+     Optional Highlight Colors
+     ========================= */
+  --color-highlight-gold: #c8a96a;
+  --color-highlight-steel: #8fa3b8;
+
+  /* =========================
+     UI States
+     ========================= */
+  --color-success: #3fb984;
+  --color-warning: #e6b566;
+  --color-error: #d6455d;
+
+  /* =========================
+     Shadows
+     ========================= */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-strong: 0 25px 60px rgba(0, 0, 0, 0.65);
+}
+
+/* =========================
+   Base
+   ========================= */
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Montserrat', sans-serif;
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
+  background: linear-gradient( to bottom, #7a0c16 0%, #2b0a0e 70%);
+  box-sizing: border-box;
+}
+
+/* =========================
+   Header
+   ========================= */
+
+.header {
+  position: relative;
+  text-align: center;
+  padding: 1rem 1rem 1rem;
+}
+
+.header h1 {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 800;
+  font-style: italic;
+  margin: 0;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.header h3 {
+  margin-top: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* =========================
+   Ticket Card
+   ========================= */
+
+#ticketWrapper {
+  position: relative;
+  max-width: 600px;
+  margin: -2rem auto 0rem;
+  padding: 2rem 2.5rem 0.65rem 2.5rem;
+  border-radius: 14px;
+  /*box-shadow: var(--shadow-strong);*/
+  color: #ffffff;
+  height: 100%;
+}
+
+#ticketWrapper::before {
+  content: "";
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+}
+
+/* =========================
+   Inputs & Labels
+   ========================= */
+
+.input-field {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-field input,
+.input-field select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 0.25rem;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.input-field input:focus,
+.input-field select:focus {
+  outline: none;
+  border-bottom-color: var(--color-highlight-gold);
+}
+
+.input-field label {
+  position: absolute;
+  left: 0.25rem;
+  top: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+/* Floating labels */
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label,
+.input-field select:focus + label {
+  top: -0.8rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================
+   Radio Buttons (Day)
+   ========================= */
+
+.day {
+  margin: 1.5rem 0;
+}
+
+.day p {
+  margin-bottom: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.day input[type="radio"] {
+  display: none;
+}
+
+.day label {
+  display: block;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.day label:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.day input[type="radio"]:checked + label {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-highlight-gold);
+}
+
+/* =========================
+   Select Dropdown
+   ========================= */
+
+.input-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.25rem;
+}
+
+#quantityLabel{
+  top: -0.8rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================
+   Price
+   ========================= */
+
+.price {
+  margin: 3rem 0 2rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+#priceTag {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* =========================
+   Submit Button
+   ========================= */
+
+.input-field.submit input {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: linear-gradient(
+    to right,
+    #ffffff,
+    #f2f2f2
+  );
+  color: #6b0f1a;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.input-field.submit input:hover {
+  background: linear-gradient(
+    to right,
+    #e6c88c,
+    #d8b56a
+  );
+  color: #2b0a0e;
+}

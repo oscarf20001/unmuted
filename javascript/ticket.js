@@ -1,3 +1,5 @@
+import { createAndDisplayMessage } from "./messages.js";
+
 class Ticket {
     constructor(data) {
         this.vorname = data.get('vorname');
@@ -36,8 +38,8 @@ export async function createTicket(data){
 
     try {
         const handover = await handOverToPHP(person);
+        createAndDisplayMessage(handover.success, handover.message);
         console.log('PHP Response:', handover);
-        return handover;
     } catch(err) {
         console.error('Fehler beim Senden an PHP', err);
         return false;

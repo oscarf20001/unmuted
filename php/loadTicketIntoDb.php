@@ -26,7 +26,7 @@ $data = json_decode(file_get_contents('php://input'), true);
  * 
  */
 
-function fail($msg) {
+function fail($msg, $mailHost, $mailUsername, $mailPassword, $mailPort) {
 
     include 'oscarsErrorMail.php';
 
@@ -95,7 +95,7 @@ $required = [
 
 foreach ($required as $field) {
     if (!isset($data[$field]) || $data[$field] === '') {
-        fail("Feld '$field' ist ungültig oder fehlt");
+        fail("Feld '$field' ist ungültig oder fehlt", $mailHost, $mailUsername, $mailPassword, $mailPort);
     }
 }
 
@@ -109,15 +109,15 @@ $day         = trim($data['presentation']);
 $visited     = trim($data['visited']);
 
 if (!$email) {
-    fail('Ungültige E-Mail-Adresse');
+    fail('Ungültige E-Mail-Adresse', $mailHost, $mailUsername, $mailPassword, $mailPort);
 }
 
 if ($ticketCount <= 0) {
-    fail('Ticket-Anzahl muss größer als 0 sein');
+    fail('Ticket-Anzahl muss größer als 0 sein', $mailHost, $mailUsername, $mailPassword, $mailPort);
 }
 
 if ($price <= 0) {
-    fail('Preis ungültig');
+    fail('Preis ungültig', $mailHost, $mailUsername, $mailPassword, $mailPort);
 }
 
 // ✅ Checks successfull - ongoing
@@ -143,7 +143,7 @@ require_once 'checkForDuplicates.php';
 $insert = insertIntoDb($conn, $vorname, $nachname, $email, $ticketCount, $price, $day, $visited);
 
 if(!$insert['success']){
-    fail($insert['message']); // sofort abbrechen + Fehler an Frontend
+    fail($insert['message']); // sofort abbrechen + Fehler an Fronte, $mailHost, $mailUsername, $mailPassword, $mailPortnd
 }
 
 /**
@@ -169,7 +169,7 @@ $mailResult = sendPleasePayEmail(
 );
 
 if ($mailResult !== true) {
-    fail('Mailversand fehlgeschlagen: ' . $mailResult);
+    fail('Mailversand fehlgeschlagen: ' . $mailResult, $mailHost, $mailUsername, $mailPassword, $mailPort);
 }
 
 echo json_encode([

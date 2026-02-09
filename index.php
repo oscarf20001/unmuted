@@ -62,14 +62,13 @@ This Code was written by Oscar Streich
     MESSAGE-CONTAINER
     =================================================
     -->
-    <div id="messageContainer">
+    <div id="messageContainer" class="message success toast">
         <div id="message-icon">
             <i id="successLight-true" class="fa-solid fa-check"></i>
             <i id="successLight-false" class="fa-solid fa-triangle-exclamation"></i>
         </div>
         <p id="message-text">
-            <!-- Text is later inserted via js -->
-             Das ist ein Test
+            Deine Ticketbestätigung ist eingegangen.
         </p>
     </div>
 

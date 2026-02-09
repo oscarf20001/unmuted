@@ -49,5 +49,5 @@ function checkDuplicate($conn, $vorname, $nachname, $day)
 $duplicateCheck = checkDuplicate($conn, $vorname, $nachname, $day);
 
 if (!$duplicateCheck['success']) {
-    fail($duplicateCheck['message']);
+    fail($duplicateCheck['message'], $mailHost, $mailUsername, $mailPassword, $mailPort);
 }

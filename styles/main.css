@@ -262,3 +262,161 @@ body {
   );
   color: #2b0a0e;
 }
+
+/* =========================
+   Message / Alert Box
+   ========================= */
+
+#messageContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin: 1.5rem 1rem 0;
+  padding: 1.25rem 1.5rem;
+
+  max-width: 520px;
+  width: calc(100% - 5rem);
+
+  border-radius: 14px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.02)
+  );
+
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-soft);
+
+  border: 1px solid var(--color-border-subtle);
+
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  animation: messageEnter 0.4s ease forwards;
+}
+
+/* Entry animation = perceived speed */
+@keyframes messageEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================
+   Icon Container
+   ========================= */
+
+#message-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  font-size: 1.1rem;
+}
+
+/* Hide both by default */
+#successLight-true,
+#successLight-false {
+  display: none;
+}
+
+/* =========================
+   Text
+   ========================= */
+
+#message-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+/* =========================
+   SUCCESS STATE
+   ========================= */
+
+.message.success {
+  border-color: rgba(63, 185, 132, 0.4);
+}
+
+.message.success #message-icon {
+  background: radial-gradient(
+    circle at top left,
+    rgba(63, 185, 132, 0.9),
+    rgba(63, 185, 132, 0.4)
+  );
+  color: #0f2e21;
+  box-shadow: 0 0 18px rgba(63, 185, 132, 0.45);
+}
+
+.message.success #successLight-true {
+  display: block;
+}
+
+/* =========================
+   ERROR STATE
+   ========================= */
+
+.message.error {
+  border-color: rgba(214, 69, 93, 0.45);
+}
+
+.message.error #message-icon {
+  background: radial-gradient(
+    circle at top left,
+    rgba(214, 69, 93, 0.9),
+    rgba(214, 69, 93, 0.45)
+  );
+  color: #3a0f18;
+  box-shadow: 0 0 18px rgba(214, 69, 93, 0.5);
+}
+
+.message.error #successLight-false {
+  display: block;
+}
+
+/* =========================
+   Toast Behaviour
+   ========================= */
+
+.toast {
+  position: fixed;
+  top: 1.25rem;
+  transform: translateX(-50%) translateY(-20px) scale(0.96);
+
+  z-index: 9999;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Sichtbar */
+.toast.show {
+  animation: toastIn 0.45s ease forwards;
+}
+
+/* Verstecken */
+.toast.hide {
+  animation: toastOut 0.35s ease forwards;
+}
+
+@keyframes toastIn {
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-16px) scale(0.96);
+  }
+}

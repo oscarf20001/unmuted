@@ -17,90 +17,146 @@ function sendPleasePayEmail(
     $mail = new PHPMailer(true);
 
     $vornameSafe = htmlspecialchars($vorname, ENT_QUOTES, 'UTF-8');
-    $emailSafe   = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+    $emailSafe   = str_replace("@","_at_", htmlspecialchars($email, ENT_QUOTES, 'UTF-8'));
     $priceSafe   = htmlspecialchars($price, ENT_QUOTES, 'UTF-8');
     $ticketSafe  = htmlspecialchars($ticketCount, ENT_QUOTES, 'UTF-8');
     $daySafe     = htmlspecialchars($day, ENT_QUOTES, 'UTF-8');
 
 
     try {
-        $nachricht = <<<HTML
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset='UTF-8'>
-                <title>Unmuted - Zeig, wer du bist!</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        line-height: 1.6;
-                    }
-                    table {
-                        width: 100%;
-                        border-collapse: collapse;
-                    }
-                    th, td {
-                        padding: 8px;
-                        text-align: left;
-                        border: 1px solid #ddd;
-                    }
-                    th {
-                        background-color: #f2f2f2;
-                    }
-                    p {
-                        margin: 16px 0;
-                    }
-                </style>
-            </head>
-            <body>
-                <p>Hallo {$vornameSafe},</p>
-                <p>
-                    vielen Dank für Ihre Reservierung für unser SK Musical – wir freuen uns sehr, dass Sie dabei sind! 🎭<br><br>
+    $nachricht = <<<HTML
+        <!DOCTYPE html>
+        <html lang="de">
+        <head>
+        <meta charset="UTF-8">
+        <title>Unmuted – Zeig, wer du bist!</title>
+        </head>
 
-                    Um Ihre Tickets verbindlich zu sichern, überweisen Sie bitte den Betrag von {$priceSafe}€ an:<br><br>
+        <body style="
+        margin:0;
+        padding:0;
+        font-family: Inter, Montserrat, Arial, sans-serif;
+        background: linear-gradient(to bottom, #7a0c16 0%, #2b0a0e 70%);
+        color:#e6e7eb;
+        ">
 
-                    PayPal: [PayPal-Adresse / Name „Raphael …“]<br>
-                    Verwendungszweck: {$emailSafe}+{$ticketSafe}+MusicalUnmuted<br><br>
+        <div style="max-width:600px;margin:0 auto;padding:2rem 1.5rem;">
 
-                    Sobald die Zahlung bei uns eingegangen ist, erhalten Sie eine Bestätigung per E-Mail.<br><br>
+            <div style="text-align:center;margin-bottom:2rem;">
+            <h1 style="
+                margin:0;
+                font-size:3rem;
+                font-weight:800;
+                font-style:italic;
+                color:#ffffff;
+                text-shadow:0 4px 12px rgba(0,0,0,0.5);
+            ">
+                UNMUTED
+            </h1>
+            <h3 style="
+                margin-top:0.75rem;
+                font-size:1.1rem;
+                font-weight:400;
+                letter-spacing:0.12em;
+                color:rgba(255,255,255,0.85);
+            ">
+                ZEIG, WER DU BIST
+            </h3>
+            </div>
 
-                    Bei Fragen melden Sie sich jederzeit gerne bei uns.<br><br>
+            <div style="
+            background:rgba(0,0,0,0.25);
+            border-radius:14px;
+            padding:2rem;
+            color:#ffffff;
+            ">
 
-                    Wir freuen uns auf Ihren Besuch!<br>
-                    Ihr SK-Musical Team
+            <p style="font-size:1.05rem;">
+                Hallo <strong>{$vornameSafe}</strong>,
+            </p>
+
+            <p style="line-height:1.6;color:#e6e7eb;">
+                vielen Dank für Ihre Reservierung für unser <strong>SK Musical</strong> –
+                wir freuen uns sehr, dass Sie dabei sind! 🎭
+            </p>
+
+            <p style="line-height:1.6;color:#b5b8c2;">
+                Um Ihre Tickets verbindlich zu sichern, überweisen Sie bitte den Betrag von
+                <strong style="color:#ffffff;">{$priceSafe} €</strong>
+                an:
+            </p>
+
+            <div style="
+                margin:1.5rem 0;
+                padding:1.25rem;
+                border:1px solid rgba(255,255,255,0.25);
+                border-radius:8px;
+                background:rgba(0,0,0,0.2);
+            ">
+                <p style="margin:0 0 0.5rem 0;">
+                <strong>PayPal:</strong> Raphael …
                 </p>
-                <!--<p>
-                    Vorname: ".htmlspecialchars($vorname, ENT_QUOTES, 'UTF-8')."<br>
-                    Email: ".htmlspecialchars($email, ENT_QUOTES, 'UTF-8')."<br>
-                    Anzahl an Tickets: ".htmlspecialchars($ticketCount, ENT_QUOTES, 'UTF-8')."<br>
-                    Preis: ".htmlspecialchars($price, ENT_QUOTES, 'UTF-8')."<br>
-                    Tag: ".htmlspecialchars($day, ENT_QUOTES, 'UTF-8')."
-                </p>-->
-            </body>
-            </html>
+                <p style="margin:0;color:#c8a96a;">
+                <strong>Verwendungszweck:</strong><br>
+                {$emailSafe}+{$ticketSafe}+MusicalUnmuted
+                </p>
+            </div>
+
+            <p style="line-height:1.6;color:#b5b8c2;">
+                Sobald die Zahlung bei uns eingegangen ist, erhalten Sie eine
+                Bestätigung per E-Mail.
+            </p>
+
+            <p style="line-height:1.6;color:#b5b8c2;">
+                Bei Fragen melden Sie sich jederzeit gerne bei uns.
+            </p>
+
+            <p style="margin-top:2rem;font-weight:500;color:#ffffff;">
+                Wir freuen uns auf Ihren Besuch!<br>
+                <span style="color:#c8a96a;">Ihr SK-Musical-Team</span>
+            </p>
+
+            </div>
+
+            <p style="
+            margin-top:2rem;
+            text-align:center;
+            font-size:0.8rem;
+            color:#7e828f;
+            ">
+            Marie-Curie-Gymnasium · SK Musical
+            </p>
+
+        </div>
+
+        </body>
+        </html>
         HTML;
 
-        $mail->isSMTP();
-        $mail->Host       = $mailHost;
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $mailUsername;
-        $mail->Password   = $mailPassword;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $mailPort;
-        $mail->CharSet    = 'UTF-8';
+    $mail->isSMTP();
+    $mail->Host       = $mailHost;
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $mailUsername;
+    $mail->Password   = $mailPassword;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = $mailPort;
+    $mail->CharSet    = 'UTF-8';
 
-        $mail->setFrom($mailUsername, 'Marie-Curie Gymnasium');
-        $mail->addReplyTo('oscar-streich@t-online.de', 'Oscar');
-        $mail->addAddress($email, $vorname);
+    $mail->setFrom($mailUsername, 'Marie-Curie Gymnasium');
+    $mail->addReplyTo('oscar-streich@t-online.de', 'Gordon');
+    $mail->addAddress($email, $vorname);
 
-        $mail->isHTML(true);
-        $mail->Subject = 'Vielen Dank für ihre Reservierung | SK Musical';
-        $mail->Body    = $nachricht;
+    $mail->isHTML(true);
+    $mail->Subject = 'Vielen Dank für Ihre Reservierung | SK Musical';
+    $mail->Body    = $nachricht;
 
-        $mail->send();
-        return true;
+    $mail->send();
+    return true;
 
-    } catch (Exception $e) {
+} catch (Exception $e) {
+    return false;
+}
+ catch (Exception $e) {
         return $mail->ErrorInfo;
     }
 }

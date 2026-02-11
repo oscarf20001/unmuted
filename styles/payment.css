@@ -1,0 +1,181 @@
+:root {
+      --primary: #7a0c16; /* PayPal-Blau */
+      --secondary: #2b0a0e;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2933;
+      --muted: #6b7280;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      width: 100%;
+      max-width: 760px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      padding: 32px 36px 36px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 22px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 720px) {
+      .content { grid-template-columns: 1fr; }
+    }
+
+    .section {
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 20px 22px;
+    }
+
+    .section h2 {
+      margin: 0 0 14px 0;
+      font-size: 1.1rem;
+    }
+
+    .row {
+      margin-bottom: 14px;
+    }
+
+    .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .value {
+      font-size: 1rem;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .hint {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .qr-wrapper {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      box-shadow: inset 0 0 0 1px #e5e7eb;
+    }
+
+    .qr-wrapper h3 {
+      margin: 0 0 12px 0;
+      font-size: 1rem;
+    }
+
+    .qr {
+      width: 220px;
+      height: 220px;
+      margin-bottom: 12px;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* =====================
+       Mobile Optimierungen
+       ===================== */
+    @media (max-width: 720px) {
+      .card {
+        padding: 22px 20px 24px;
+        border-radius: 16px;
+      }
+
+      h1 {
+        font-size: 1.35rem;
+      }
+
+      .content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .section,
+      .qr-wrapper {
+        padding: 18px;
+      }
+
+      .logo {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+        border-radius: 12px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 10px;
+      }
+
+      .card {
+        padding: 18px 16px 20px;
+      }
+
+      .value {
+        font-size: 0.95rem;
+      }
+}

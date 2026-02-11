@@ -83,24 +83,9 @@ function sendPleasePayEmail(
             <p style="line-height:1.6;color:#b5b8c2;">
                 Um Ihre Tickets verbindlich zu sichern, überweisen Sie bitte den Betrag von
                 <strong style="color:#ffffff;">{$priceSafe} €</strong>
-                an:
+                über PayPal an den auf der Website gezeigten Account. Besuchen Sie dazu folgende Seite:<br>
+                <a href="https://www.curiegymnasium.de/payment/?email={$emailSafe}&tickets={$ticketCount}">Zahlungsinformationen</a>
             </p>
-
-            <div style="
-                margin:1.5rem 0;
-                padding:1.25rem;
-                border:1px solid rgba(255,255,255,0.25);
-                border-radius:8px;
-                background:rgba(0,0,0,0.2);
-            ">
-                <p style="margin:0 0 0.5rem 0;">
-                <strong>PayPal:</strong> Raphael …
-                </p>
-                <p style="margin:0;color:#c8a96a;">
-                <strong>Verwendungszweck:</strong><br>
-                {$emailSafe}+{$ticketSafe}+MusicalUnmuted
-                </p>
-            </div>
 
             <p style="line-height:1.6;color:#b5b8c2;">
                 Sobald die Zahlung bei uns eingegangen ist, erhalten Sie eine

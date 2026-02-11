@@ -1,5 +1,5 @@
 <?php
-$email   = filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL);
+$email   = filter_input(INPUT_GET, 'email');
 $tickets = filter_input(INPUT_GET, 'tickets', FILTER_VALIDATE_INT);
 
 if (!$email || !$tickets) {

@@ -31,6 +31,8 @@ export async function createTicket(data){
     const person = new Ticket(data);
     console.log(person);
 
+    createAndDisplayMessage(true, 'Working on it');
+
     if(!person){
         console.error("Fehler beim Erstellen der Person");
         return;
@@ -39,6 +41,7 @@ export async function createTicket(data){
     try {
         const handover = await handOverToPHP(person);
         createAndDisplayMessage(handover.success, handover.message);
+        clearInputs();
         console.log('PHP Response:', handover);
     } catch(err) {
         console.error('Fehler beim Senden an PHP', err);
@@ -64,4 +67,20 @@ async function handOverToPHP(person){
         console.error(err);
         throw err; // Optional: wirft Fehler weiter
     }
+}
+
+export function clearInputs(){
+    let vorname = document.getElementById('vorname');
+    let nachname = document.getElementById('nachname');
+    let email = document.getElementById('email');
+
+    vorname.value = '';
+    nachname.value = '';
+    email.value = '';
+
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+    });
+
+    document.getElementById('mySelect').value = '1';
 }

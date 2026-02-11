@@ -1,3 +1,12 @@
+<?php
+$email   = filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL);
+$tickets = filter_input(INPUT_GET, 'tickets', FILTER_VALIDATE_INT);
+
+if (!$email || !$tickets) {
+    die('Ungültige Zahlungsparameter.');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -27,7 +36,7 @@
 
         <div class="row">
           <div class="label">Verwendungszweck</div>
-          <div class="value">oscar-streich_at_t-online.de+3+MusicalUnmuted</div>
+          <div class="value"><?= $email . "+" . $tickets?>+MusicalUnmuted</div>
         </div>
 
         <p class="hint">

@@ -84,7 +84,7 @@ function sendPleasePayEmail(
                 Um Ihre Tickets verbindlich zu sichern, überweisen Sie bitte den Betrag von
                 <strong style="color:#ffffff;">{$priceSafe} €</strong>
                 über PayPal an den auf der Website gezeigten Account. Besuchen Sie dazu folgende Seite:<br>
-                <a href="https://www.curiegymnasium.de/payment/?email={$emailSafe}&tickets={$ticketCount}">Zahlungsinformationen</a>
+                <a href="https://www.curiegymnasium.de/payment?email={$emailSafe}&tickets={$ticketCount}">Zahlungsinformationen</a>
             </p>
 
             <p style="line-height:1.6;color:#b5b8c2;">

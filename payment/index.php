@@ -31,7 +31,7 @@ if (!$email || !$tickets) {
 
         <div class="row">
           <div class="label">Empfänger</div>
-          <div class="value">PayPal: Raphael …</div>
+          <div class="value">PayPal: stark.eventsolution@gmail.com</div>
         </div>
 
         <div class="row">

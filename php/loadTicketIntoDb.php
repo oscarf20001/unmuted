@@ -174,5 +174,5 @@ if ($mailResult !== true) {
 
 echo json_encode([
     'success' => true,
-    'message' => 'Successfully wrote ticket!'
+    'message' => 'Ticket erfolgreich erstellt!'
 ]);

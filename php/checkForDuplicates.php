@@ -33,7 +33,9 @@ function checkDuplicate($conn, $vorname, $nachname, $day)
         // Es gibt bereits mindestens 1 Eintrag
         return [
             'success' => false,
-            'message' => 'Ein Ticket für diese Person und diesen Tag existiert bereits'
+            'message' => 'Ein Ticket für diese Person und diesen Tag existiert bereits',
+            'vorname' => $vorname,
+            'nachname' => $nachname
         ];
     }
 
@@ -49,5 +51,5 @@ function checkDuplicate($conn, $vorname, $nachname, $day)
 $duplicateCheck = checkDuplicate($conn, $vorname, $nachname, $day);
 
 if (!$duplicateCheck['success']) {
-    fail($duplicateCheck['message'], $mailHost, $mailUsername, $mailPassword, $mailPort);
+    fail($duplicateCheck['message'], $mailHost, $mailUsername, $mailPassword, $mailPort, $duplicateCheck['vorname'], $duplicateCheck['nachname'], null);
 }

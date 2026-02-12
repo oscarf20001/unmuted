@@ -26,18 +26,15 @@ $data = json_decode(file_get_contents('php://input'), true);
  * 
  */
 
-function fail($msg, $mailHost, $mailUsername, $mailPassword, $mailPort) {
+function fail($msg, $mailHost, $mailUsername, $mailPassword, $mailPort, $vorname, $nachname, $email) {
 
     include 'oscarsErrorMail.php';
 
-    $errorHandlingMailResult = informOscar($mailHost,
-    $mailUsername,
-    $mailPassword,
-    $mailPort);
+    $errorHandlingMailResult = informOscar($mailHost, $mailUsername, $mailPassword, $mailPort, $msg);
 
     echo json_encode([
         'success' => false,
-        'message'     => $msg
+        'message' => $msg
     ]);
     exit;
 }
@@ -95,7 +92,7 @@ $required = [
 
 foreach ($required as $field) {
     if (!isset($data[$field]) || $data[$field] === '') {
-        fail("Feld '$field' ist ungültig oder fehlt", $mailHost, $mailUsername, $mailPassword, $mailPort);
+        fail("Feld '$field' ist ungültig oder fehlt", $mailHost, $mailUsername, $mailPassword, $mailPort, $vorname, $nachname, $email);
     }
 }
 
@@ -109,15 +106,15 @@ $day         = trim($data['presentation']);
 $visited     = trim($data['visited']);
 
 if (!$email) {
-    fail('Ungültige E-Mail-Adresse', $mailHost, $mailUsername, $mailPassword, $mailPort);
+    fail('Ungültige E-Mail-Adresse', $mailHost, $mailUsername, $mailPassword, $mailPort, $vorname, $nachname, $email);
 }
 
 if ($ticketCount <= 0) {
-    fail('Ticket-Anzahl muss größer als 0 sein', $mailHost, $mailUsername, $mailPassword, $mailPort);
+    fail('Ticket-Anzahl muss größer als 0 sein', $mailHost, $mailUsername, $mailPassword, $mailPort, $vorname, $nachname, $email);
 }
 
 if ($price <= 0) {
-    fail('Preis ungültig', $mailHost, $mailUsername, $mailPassword, $mailPort);
+    fail('Preis ungültig', $mailHost, $mailUsername, $mailPassword, $mailPort, $vorname, $nachname, $email);
 }
 
 // ✅ Checks successfull - ongoing
@@ -143,7 +140,7 @@ require_once 'checkForDuplicates.php';
 $insert = insertIntoDb($conn, $vorname, $nachname, $email, $ticketCount, $price, $day, $visited);
 
 if(!$insert['success']){
-    fail($insert['message']); // sofort abbrechen + Fehler an Fronte, $mailHost, $mailUsername, $mailPassword, $mailPortnd
+    fail($insert['message'], $mailHost, $mailUsername, $mailPassword, mailPort: $mailPort, vorname: $vorname, nachname: $nachname, email: $email); // sofort abbrechen + Fehler an Fronte, $mailHost, $mailUsername, $mailPassword, $mailPortnd
 }
 
 /**
@@ -169,7 +166,7 @@ $mailResult = sendPleasePayEmail(
 );
 
 if ($mailResult !== true) {
-    fail('Mailversand fehlgeschlagen: ' . $mailResult, $mailHost, $mailUsername, $mailPassword, $mailPort);
+    fail('Mailversand fehlgeschlagen: ' . $mailResult, $mailHost, $mailUsername, $mailPassword, $mailPort, $vorname, $nachname, $email);
 }
 
 echo json_encode([

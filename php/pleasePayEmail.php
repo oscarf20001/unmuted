@@ -97,7 +97,7 @@ function sendPleasePayEmail(
             </p>
 
             <p style="margin-top:2rem;font-weight:500;color:#ffffff;">
-                Wir freuen uns auf Ihren Besuch!<br>
+                Wir freuen uns auf Ihren Besuch!<br><br>
                 <span style="color:#c8a96a;">Ihr SK-Musical-Team</span>
             </p>
 

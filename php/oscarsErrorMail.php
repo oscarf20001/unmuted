@@ -12,7 +12,7 @@ function informOscar(
     $mail = new PHPMailer(true);
 
     try {
-                $nachricht = "
+        $nachricht = "
             <!DOCTYPE html>
             <html>
             <head>

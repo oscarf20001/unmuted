@@ -55,9 +55,9 @@ if (!$email || !$tickets) {
         <h3>PayPal QR-Code</h3>
         <!-- Beispiel-QR-Code. Ersetze den Link im src-Attribut bei Bedarf -->
         <img
-          class="qr"
-          src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://www.paypal.me/raphael"
-          alt="PayPal QR-Code"
+            class="qr"
+            src="../img/paypal.jpeg"
+            alt="PayPal QR-Code"
         />
         <div class="hint">Mit der PayPal-App scannen</div>
       </section>

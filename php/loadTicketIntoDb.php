@@ -174,5 +174,5 @@ if ($mailResult !== true) {
 
 echo json_encode([
     'success' => true,
-    'message' => 'Ticket erfolgreich erstellt!'
+    'message' => 'Ticket erfolgreich erstellt! Bitte überprüfe deine Mails'
 ]);

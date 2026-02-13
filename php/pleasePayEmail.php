@@ -88,7 +88,7 @@ function sendPleasePayEmail(
             </p>
 
             <p style="line-height:1.6;color:#b5b8c2;">
-                Sobald die Zahlung bei uns eingegangen ist, erhalten Sie eine
+                Sobald die Zahlung bei uns eingegangen ist, erhalten Sie in den nächsten 48h eine
                 Bestätigung per E-Mail.
             </p>
 

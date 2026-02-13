@@ -69,6 +69,34 @@ async function handOverToPHP(person){
     }
 }
 
+export async function checkCapacity(){
+    // 400 is limit for each presentation
+    let maxValue = 0;
+
+    let firstShowDate = '11-03-2026 19:00:00';
+    let firstShowCapacity = await getCapacity(firstShowDate);
+    if(firstShowCapacity.capacity > maxValue){
+        blockEvent(firstShowDate);
+    }
+
+    let secondShowDate = '12-03-2026 19:00:00';
+    let secondShowCapacity = await getCapacity(secondShowDate);
+    if(secondShowCapacity.capacity > maxValue){
+        blockEvent(secondShowDate);
+    }
+}
+
+function blockEvent(event){
+    console.warn("Blocking Event: " + event);
+    const element = document.getElementById(replaceSpaceWithDash(event));
+    element.disabled = true;
+    element.classList.add('disbaled');
+}
+
+function replaceSpaceWithDash(dateTime) {
+    return dateTime.replace(/\s+/g, '-');
+}
+
 export function clearInputs(){
     let vorname = document.getElementById('vorname');
     let nachname = document.getElementById('nachname');
@@ -84,3 +112,26 @@ export function clearInputs(){
 
     document.getElementById('mySelect').value = '1';
 }
+
+async function getCapacity(date){
+    try {
+        console.log("Collecting Capacetiy for event: " + date + " ...");
+
+        const res = await fetch('../php/getCapacity.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(date)
+        });
+
+        const result = await res.json();
+        console.log("Got Capacetiy for event: " + date + ". Current reserved tickets: " + result.capacity);
+        return result;
+    } catch(err) {
+        console.error(err);
+        throw err; // Optional: wirft Fehler weiter
+    }
+}
+
+checkCapacity();

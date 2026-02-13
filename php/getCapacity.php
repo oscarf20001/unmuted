@@ -16,7 +16,7 @@ require_once 'config.php';
 $date = json_decode(file_get_contents('php://input'), true);
 
 function getCapacity($conn, $date){
-    $getCapacityStatement = $conn->prepare("SELECT COUNT(*) FROM tickets WHERE day = ?");
+    $getCapacityStatement = $conn->prepare("SELECT SUM(ticketCount) FROM tickets WHERE day = ?");
     $getCapacityStatement->bind_param('s', $date);
     $getCapacityStatement->execute();
 

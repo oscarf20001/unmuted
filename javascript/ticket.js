@@ -71,7 +71,7 @@ async function handOverToPHP(person){
 
 export async function checkCapacity(){
     // 400 is limit for each presentation
-    let maxValue = 0;
+    let maxValue = 400;
 
     let firstShowDate = '11-03-2026 19:00:00';
     let firstShowCapacity = await getCapacity(firstShowDate);

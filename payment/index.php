@@ -3,7 +3,8 @@ $email   = filter_input(INPUT_GET, 'email');
 $tickets = filter_input(INPUT_GET, 'tickets', FILTER_VALIDATE_INT);
 
 if (!$email || !$tickets) {
-    die('Ungültige Zahlungsparameter.');
+    $email = 'email@provider';
+    $tickets = 'ticket_Anzahl';
 }
 ?>
 

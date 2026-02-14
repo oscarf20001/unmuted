@@ -69,20 +69,20 @@ async function handOverToPHP(person){
     }
 }
 
-export async function checkCapacity(){
-    // 400 is limit for each presentation
-    let maxValue = 400;
+export async function checkCapacity() {
+    const MAX_CAPACITY = 400;
 
-    let firstShowDate = '11-03-2026 19:00:00';
-    let firstShowCapacity = await getCapacity(firstShowDate);
-    if(firstShowCapacity.capacity > maxValue){
-        blockEvent(firstShowDate);
-    }
+    const showDates = [
+        '11-03-2026 19:00:00',
+        '12-03-2026 19:00:00'
+    ];
 
-    let secondShowDate = '12-03-2026 19:00:00';
-    let secondShowCapacity = await getCapacity(secondShowDate);
-    if(secondShowCapacity.capacity > maxValue){
-        blockEvent(secondShowDate);
+    for (const showDate of showDates) {
+        const { capacity } = await getCapacity(showDate);
+
+        if (capacity > MAX_CAPACITY) {
+            await blockEvent(showDate);
+        }
     }
 }
 
@@ -110,6 +110,9 @@ export function clearInputs(){
         radio.checked = false;
     });
 
+    // Check capacity
+    checkCapacity();
+
     document.getElementById('mySelect').value = '1';
 }
 
@@ -134,4 +137,7 @@ async function getCapacity(date){
     }
 }
 
-checkCapacity();
+// Beim Laden der Seite nach Kapazität gucken
+window.addEventListener('load', () => {
+    checkCapacity();
+});

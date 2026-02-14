@@ -22,8 +22,9 @@ function getCapacity($conn, $date){
 
     $db_capacity = 0;
     $getCapacityStatement->bind_result($db_capacity);
-    $getCapacityStatement->fetch();   // 🔴 DAS FEHLT
+    $getCapacityStatement->fetch();
     $getCapacityStatement->close();
+    
     return $db_capacity;
 }
 

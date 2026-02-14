@@ -56,6 +56,7 @@ body {
   color: var(--color-text-primary);
   background: linear-gradient( to bottom, #7a0c16 0%, #2b0a0e 70%);
   box-sizing: border-box;
+  min-height: 100vh;
 }
 
 /* =========================

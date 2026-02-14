@@ -20,7 +20,11 @@ function sendPleasePayEmail(
     $emailSafe   = str_replace("@","_at_", htmlspecialchars($email, ENT_QUOTES, 'UTF-8'));
     $priceSafe   = htmlspecialchars($price, ENT_QUOTES, 'UTF-8');
     $ticketSafe  = htmlspecialchars($ticketCount, ENT_QUOTES, 'UTF-8');
-    $daySafe     = htmlspecialchars($day, ENT_QUOTES, 'UTF-8');
+
+    $daySafe     = htmlspecialchars($day, ENT_QUOTES, 'UTF-8');    
+    $dateObj     = DateTime::createFromFormat('d-m-Y H:i:s', $daySafe);
+    $dayDate     = $dateObj->format('d.m.Y');
+    $dayTime     = $dateObj->format('H:i');
 
 
     try {
@@ -29,7 +33,7 @@ function sendPleasePayEmail(
         <html lang="de">
         <head>
         <meta charset="UTF-8">
-        <title>Unmuted – Zeig, wer du bist!</title>
+        <title>Ihre Reservierung – SK Musical "Unmuted"</title>
         </head>
 
         <body style="
@@ -77,14 +81,14 @@ function sendPleasePayEmail(
 
             <p style="line-height:1.6;color:#e6e7eb;">
                 vielen Dank für Ihre Reservierung für unser <strong>SK Musical</strong> –
-                wir freuen uns sehr, dass Sie dabei sind! 🎭
+                wir freuen uns sehr, dass Sie am {$dayDate} um {$dayTime} Uhr dabei sind! 🎭
             </p>
 
             <p style="line-height:1.6;color:#b5b8c2;">
                 Um Ihre Tickets verbindlich zu sichern, überweisen Sie bitte den Betrag von
                 <strong style="color:#ffffff;">{$priceSafe} €</strong>
                 über PayPal an den auf der Website gezeigten Account. Besuchen Sie dazu folgende Seite:<br>
-                <a href="https://www.curiegymnasium.de/payment/index.php?email={$emailSafe}&tickets={$ticketCount}">Zahlungsinformationen</a>
+                <a href="https://www.curiegymnasium.de/payment/index.php?email={$emailSafe}&tickets={$ticketSafe}">Zahlungsinformationen</a>
             </p>
 
             <p style="line-height:1.6;color:#b5b8c2;">
@@ -127,13 +131,30 @@ function sendPleasePayEmail(
     $mail->Port       = $mailPort;
     $mail->CharSet    = 'UTF-8';
 
-    $mail->setFrom($mailUsername, 'Marie-Curie Gymnasium');
-    $mail->addReplyTo('oscar-streich@t-online.de', 'Gordon');
+    $mail->setFrom($mailUsername, 'Marie-Curie-Gymnasium – SK Musical');
+    $mail->addReplyTo($mailUsername, 'SK Musical Team');
     $mail->addAddress($email, $vorname);
+    $mail->addCustomHeader(
+    'List-Unsubscribe',
+    '<mailto:' . $mailUsername . '>'
+    );
 
     $mail->isHTML(true);
-    $mail->Subject = 'Vielen Dank für Ihre Reservierung | SK Musical';
+    $mail->Subject = 'Ihre Reservierung für das SK Musical "Unmuted" – Zahlungsinformationen';
     $mail->Body    = $nachricht;
+    $mail->AltBody = "
+    Hallo {$vornameSafe},
+
+    vielen Dank für Ihre Reservierung für unser SK Musical.
+
+    Bitte überweisen Sie {$priceSafe} € über PayPal an den auf der Website angegebenen Account:
+    https://www.curiegymnasium.de/payment/index.php?email={$emailSafe}&tickets={$ticketSafe}
+
+    Nach Zahlungseingang erhalten Sie innerhalb von 48 Stunden eine Bestätigung.
+
+    Ihr SK-Musical-Team
+    Marie-Curie-Gymnasium
+    ";
 
     $mail->send();
     return true;

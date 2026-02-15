@@ -5,6 +5,7 @@
       --card: #ffffff;
       --text: #1f2933;
       --muted: #6b7280;
+      --color-text-secondary: #b5b8c2;
     }
 
     * { box-sizing: border-box; }
@@ -133,6 +134,31 @@
       text-align: center;
       font-size: 0.85rem;
       color: var(--muted);
+    }
+
+    /* =========================
+      Footer
+      ========================= */
+
+    footer{
+      position: fixed;
+      bottom: 0;
+      top: auto;
+      width: 100%;
+      padding: 0 0 2rem 0;
+    }
+
+    footer #links{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    footer #links *{
+      color: var(--color-text-secondary);
+      font-size: 0.75rem;
     }
 
     /* =====================

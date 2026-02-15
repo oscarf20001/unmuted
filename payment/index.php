@@ -68,5 +68,10 @@ if (!$email || !$tickets) {
       Vielen Dank für deine Unterstützung ❤️
     </div>
   </main>
+  <footer>
+    <?php
+      require_once '../htmlStructure/footer.php';
+    ?>
+  </footer>
 </body>
 </html>

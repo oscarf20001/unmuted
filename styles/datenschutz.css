@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap");
+
+/* Root-Variablen aus deinem Design */
+:root {
+  --color-bg-main: #0f0f12;
+  --color-bg-secondary: #1a1c22;
+  --color-accent: #950b25;
+  --color-text-primary: #e6e7eb;
+  --color-text-secondary: #b5b8c2;
+  --color-text-muted: #7e828f;
+  --color-highlight-gold: #c8a96a;
+  --shadow-soft: 0 8px 30px rgba(0,0,0,.4);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(to bottom, #7a0c16 0%, #2b0a0e 70%);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+
+.header h1 {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 800;
+  font-style: italic;
+  margin: 0;
+}
+
+.header h3 {
+  margin-top: .75rem;
+  letter-spacing: .15em;
+  font-weight: 400;
+  color: rgba(255,255,255,.85);
+}
+
+/* Container */
+#datasecurity-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem 6rem;
+}
+
+/* Card */
+.datasecurity-card {
+  max-width: 720px;
+  width: 100%;
+  background: rgba(0,0,0,.25);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Headings */
+.datasecurity-card h2 {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-top: 0;
+  color: #fff;
+}
+
+.datasecurity-card h2 i {
+  color: var(--color-highlight-gold);
+}
+
+.datasecurity-card h3 {
+  margin-bottom: .5rem;
+  color: #fff;
+}
+
+/* Lists */
+.datasecurity-list {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0;
+}
+
+.datasecurity-list > li {
+  margin-bottom: 2rem;
+}
+
+.datasecurity-list ul {
+  margin: .5rem 0 1rem 1.25rem;
+}
+
+.datasecurity-list li,
+.datasecurity-card p {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Links */
+a {
+  color: var(--color-highlight-gold);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+footer #links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: .75rem;
+  color: var(--color-text-muted);
+}

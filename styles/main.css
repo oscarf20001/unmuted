@@ -272,6 +272,31 @@ input:disabled + label {
 }
 
 /* =========================
+   Footer
+   ========================= */
+
+footer{
+  position: fixed;
+  bottom: 0;
+  top: auto;
+  width: 100%;
+  padding: 0 0 2rem 0;
+}
+
+footer #links{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+footer #links *{
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+}
+
+/* =========================
    Message / Alert Box
    ========================= */
 

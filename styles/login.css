@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap");
+
+:root {
+  --color-bg-main: #0f0f12;
+  --color-bg-card: rgba(0, 0, 0, 0.25);
+  --color-accent: #950b25;
+  --color-highlight-gold: #c8a96a;
+  --color-text-primary: #e6e7eb;
+  --color-text-secondary: #b5b8c2;
+  --shadow-soft: 0 8px 30px rgba(0,0,0,.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(to bottom, #7a0c16 0%, #2b0a0e 70%);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================
+   Login Wrapper
+   ========================= */
+
+.login-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+/* =========================
+   Login Form
+   ========================= */
+
+.login-form {
+  background: var(--color-bg-card);
+  backdrop-filter: blur(8px);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+.login-form i {
+  color: var(--color-highlight-gold);
+}
+
+/* =========================
+   Input Fields
+   ========================= */
+
+.input-field {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-field input {
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  background: transparent;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.input-field input:focus {
+  outline: none;
+  border-bottom-color: var(--color-highlight-gold);
+}
+
+.input-field label {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  pointer-events: none;
+  transition: 0.2s all ease;
+}
+
+/* Floating labels */
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label {
+  top: -0.6rem;
+  font-size: 0.75rem;
+  color: var(--color-highlight-gold);
+}
+
+/* =========================
+   Button
+   ========================= */
+
+.login-form button {
+  padding: 1rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(to right, #ffffff, #f2f2f2);
+  border: none;
+  border-radius: 999px;
+  color: #6b0f1a;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.login-form button:hover {
+  background: linear-gradient(to right, #e6c88c, #d8b56a);
+  color: var(--color-bg-main);
+}

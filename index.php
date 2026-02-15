@@ -4,6 +4,9 @@ This Code was written by Oscar Streich
 © 2026 Oscar Streich
 =================================================
 -->
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +37,28 @@ This Code was written by Oscar Streich
             include 'htmlStructure/header.php';
         ?>
     </header>
+
+    <!--
+    =================================================
+    ACCOUNT-SIGN ON TOP RIGHT CORNER
+    =================================================
+    -->
+    <header>
+        <?php
+            include 'htmlStructure/account.php';
+        ?>
+    </header>
+
+    <!--
+    =================================================
+    SIDEBAR
+    =================================================
+    -->
+    <aside>
+        <?php
+            include 'htmlStructure/sidebar.php';
+        ?>
+    </aside>
 
     <!--
     =================================================

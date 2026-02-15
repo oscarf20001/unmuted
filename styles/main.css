@@ -88,6 +88,134 @@ body {
 }
 
 /* =========================
+   Login Icon (oben rechts)
+   ========================= */
+
+  .account {
+    position: fixed;
+    top: 1.5rem;       /* Abstand von oben */
+    right: 1.5rem;     /* Abstand von rechts */
+    font-size: 2rem;   /* Icon Größe */
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 1100;     /* über Sidebar und Content */
+  }
+
+  .account:hover {
+    color: var(--color-highlight-gold);
+    transform: scale(1.15);
+  }
+
+  .account::after {
+    content: '';
+    position: absolute;
+    top: -1.8rem;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .account:hover::after {
+    opacity: 1;
+    color: var(--color-highlight-gold);
+  }
+
+/* =========================
+   Sidebar Container
+   ========================= */
+
+#navigation-links {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh; /* Voller Bildschirm */
+  width: 220px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  padding-top: 2rem;
+  gap: 1rem;
+  z-index: 1000;
+}
+
+/* =========================
+   Sidebar Link Element
+   ========================= */
+
+.navigation-link-element {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.navigation-link-element i {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  min-width: 24px;
+  text-align: center;
+}
+
+/* =========================
+   Hover / Active State
+   ========================= */
+
+.navigation-link-element:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-highlight-gold);
+}
+
+.navigation-link-element:hover i {
+  color: var(--color-highlight-gold);
+}
+
+/* =========================
+   Active Link (optional)
+   ========================= */
+
+.navigation-link-element.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-highlight-gold);
+}
+
+.navigation-link-element.active i {
+  color: var(--color-highlight-gold);
+}
+
+/* =========================
+   Text Styling
+   ========================= */
+
+.navigation-link-element p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+/* =========================
+   Content Shift
+   ========================= */
+
+/* Damit der Content rechts von der Sidebar beginnt */
+#mainContent {
+  margin-left: 220px;
+  padding: 2rem;
+}
+
+/* =========================
    Ticket Card
    ========================= */
 

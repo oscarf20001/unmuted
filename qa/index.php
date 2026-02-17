@@ -40,7 +40,7 @@
       <li>
         <h3>Wie funktioniert die Bezahlung?</h3>
         <p>
-          Die Bezahlung kann per PayPal oder per Barzahlung im Marie-Curie Gymnasium erfolgen.
+          Die Bezahlung kann per PayPal erfolgen.
           Die Zahlungsinformationen erhalten Sie nach der Reservierung per E-Mail oder <a href="/payment">hier</a>.
         </p>
       </li>
@@ -53,21 +53,21 @@
         </p>
       </li>
 
-      <!--<li>
+      <li>
         <h3>Gibt es eine Altersbeschränkung?</h3>
         <p>
           Das Musical richtet sich an ein breites Publikum.
           Eine konkrete Altersbeschränkung besteht nicht.
         </p>
-      </li>-->
+      </li>
 
-      <!--<li>
+      <li>
         <h3>Kann ich meine Reservierung stornieren?</h3>
         <p>
           Eine Stornierung ist nur möglich, solange noch keine Zahlung
           eingegangen ist. Kontaktieren Sie uns dazu bitte per E-Mail.
         </p>
-      </li>-->
+      </li>
 
       <li>
         <h3>Was passiert, wenn eine Vorstellung ausverkauft ist?</h3>
@@ -86,9 +86,7 @@
           </a>.
         </p>
       </li>
-
     </ol>
-
   </section>
 
 </main>

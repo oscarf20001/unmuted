@@ -1,0 +1,85 @@
+#searchWrapper{
+    position: relative;
+    max-width: 600px;
+    margin: -2rem auto 0rem;
+    padding: 2rem 2.5rem 0.65rem 2.5rem;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2rem;
+}
+
+/* =========================
+   Inputs & Labels
+   ========================= */
+
+.input-field {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-field select:focus + label,
+.input-field select:valid + label {
+  top: -0.8rem;
+  font-size: 0.75rem;
+}
+
+.input-field input,
+.input-field select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 0.25rem;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.input-field input:focus,
+.input-field select:focus {
+  outline: none;
+  border-bottom-color: var(--color-highlight-gold);
+}
+
+.input-field label {
+  position: absolute;
+  left: 0.25rem;
+  top: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+/* Floating labels */
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label,
+.input-field select:focus + label {
+  top: -0.8rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+input:disabled + label {
+    color: #aaa;
+    text-decoration: line-through;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#searchWrapper .input-field, #takePaymentContainer .input-field{
+    min-width: 150px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

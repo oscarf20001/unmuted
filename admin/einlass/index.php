@@ -25,10 +25,8 @@ if (isset($_SESSION['user_id'])):
             require '../../htmlStructure/sidebar.php';
         ?>
     </aside>
-    <main>
-        <?php
-            
-        ?>
+    <main style="display:flex;justify-content:center;align-items:center;">
+        <p>Einlass - Under construction!</p>
     </main>
     <footer>
         <?php

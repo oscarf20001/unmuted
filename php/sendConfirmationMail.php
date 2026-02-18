@@ -129,7 +129,7 @@ function sendConfirmationEmail(
 
                 <p style="line-height:1.6;color:#b5b8c2;">
                     Ihre Tickets für das SK Musical sind damit verbindlich bestätigt. 🎉<br>
-                    Reservierung: {$ticketSafe} Tickets auf den Namen "{$vorname} {$nachname}" am {$dayDate} um {$dayTime} Uhr
+                    Reservierung: {$ticketSafe} Tickets auf den Namen "{$vorname} {$nachname}" am {$dayDate} um {$dayTime} Uhr<br>
                     Ihr Ticket befindet sich im Anhang. Zeigen Sie dies bitte unaufgefordert am Einlass, analog oder digital, vor!
                 </p>
 

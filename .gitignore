@@ -3,3 +3,7 @@
 /logs/
 .DS_Store
 data/
+node-logs/
+/ticket/images/
+/ticket/gen_pdfs/
+/ticket/barcodes/

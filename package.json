@@ -1,0 +1,28 @@
+{
+  "name": "unmuted",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscarf20001/unmuted.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/oscarf20001/unmuted/issues"
+  },
+  "homepage": "https://github.com/oscarf20001/unmuted#readme",
+  "dependencies": {
+    "bwip-js": "^4.8.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mysql2": "^3.17.2",
+    "puppeteer": "^24.37.4"
+  }
+}

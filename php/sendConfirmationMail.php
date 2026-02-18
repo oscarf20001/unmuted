@@ -45,6 +45,7 @@ function sendConfirmationEmail(
     $nachname,
     $ticketCount,
     $day,
+    $person_id,
     $mailHost,
     $mailUsername,
     $mailPassword,
@@ -129,10 +130,7 @@ function sendConfirmationEmail(
                 <p style="line-height:1.6;color:#b5b8c2;">
                     Ihre Tickets für das SK Musical sind damit verbindlich bestätigt. 🎉<br>
                     Reservierung: {$ticketSafe} Tickets auf den Namen "{$vorname} {$nachname}" am {$dayDate} um {$dayTime} Uhr
-                </p>
-
-                <p style="line-height:1.6;color:#b5b8c2;">
-                    Alle weiteren Informationen zur Veranstaltung erhalten Sie rechtzeitig vorab per E-Mail.
+                    Ihr Ticket befindet sich im Anhang. Zeigen Sie dies bitte unaufgefordert am Einlass, analog oder digital, vor!
                 </p>
 
                 <p style="line-height:1.6;color:#b5b8c2;">
@@ -162,6 +160,25 @@ function sendConfirmationEmail(
             </html>
 HTML;
 
+        // ====== PDF vom Node-Server holen ======
+        $nodeUrl = "https://metis-pdfgen.curiegymnasium.de/?person_id={$person_id}";
+        $response = file_get_contents($nodeUrl);
+
+        if ($response === false) {
+            throw new Exception("PDF konnte nicht vom Node-Server abgerufen werden.");
+        }
+
+        $json = json_decode($response, true);
+        if (!isset($json['pdf'])) {
+            throw new Exception("PDF-Daten fehlen im Node-Response.");
+        }
+
+        $pdfBase64 = $json['pdf'];
+
+        // Temporäre Datei anlegen
+        $tmpPath = sys_get_temp_dir() . "/ticket_{$person_id}.pdf";
+        file_put_contents($tmpPath, base64_decode($pdfBase64));
+
         // ====== SMTP Setup ======
         $mail->isSMTP();
         $mail->Host       = $mailHost;
@@ -175,31 +192,23 @@ HTML;
         $mail->setFrom($mailUsername, 'Marie-Curie-Gymnasium – SK Musical');
         $mail->addReplyTo($mailUsername, 'SK Musical Team');
         $mail->addAddress($email, $vornameSafe);
-        $mail->addCustomHeader('List-Unsubscribe','<mailto:' . $mailUsername . '>');
 
         $mail->isHTML(true);
         $mail->Subject = 'Viel Spaß bei unserem Musical 🥳 | SK Musical';
         $mail->Body    = $nachricht;
 
-        $mail->AltBody = "
-        Hallo {$vornameSafe},
+        // PDF anhängen
+        $mail->addAttachment($tmpPath, 'Ticket.pdf');
 
-        vielen Dank! Ihre Zahlung ist bei uns eingegangen. ✅
-
-        Ihre Tickets für das SK Musical sind damit verbindlich bestätigt. 🎉
-        Reservierung: [Anzahl] Tickets auf den Namen {$vornameSafe}
-
-        Nach Zahlungseingang erhalten Sie innerhalb von 48 Stunden eine Bestätigung.
-
-        Ihr SK-Musical-Team
-        Marie-Curie-Gymnasium
-        ";
-
+        // Mail senden
         $mail->send();
+
+        // Temporäre Datei löschen
+        unlink($tmpPath);
 
         return [
             'success' => true,
-            'message' => 'Transaktion und Mail erfolgreich durchgeführt!'
+            'message' => 'Transaktion, PDF-Generierung und Mail erfolgreich durchgeführt!'
         ];
 
     } catch (Exception $e) {

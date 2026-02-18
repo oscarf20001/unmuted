@@ -113,7 +113,7 @@ if($currentPaid >= $price){
         exit;
     }
 
-    $confirmationMail = sendConfirmationEmail($data['email'], $data['vorname'], $data['nachname'], $data['ticketCount'], $data['day'], $mailHost, $mailUsername, $mailPassword, $mailPort);
+    $confirmationMail = sendConfirmationEmail($data['email'], $data['vorname'], $data['nachname'], $data['ticketCount'], $data['day'], $ticketId, $mailHost, $mailUsername, $mailPassword, $mailPort);
     if(!$confirmationMail['success']){
         echo json_encode(['success' => false, 'message' => 'Fehler: ' . $data['message']]);    
         exit;

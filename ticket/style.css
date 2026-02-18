@@ -1,0 +1,157 @@
+@page {
+  margin: 0;
+  size: A4;
+}
+
+:root{
+    --black: #000;
+    --blackLighter: #231c3f;
+    --border: rgba(35, 28, 63, 0.4);
+    --grey: #484459;
+    --greyLighter: #777484;
+    --primaryColor: #fffcf4;
+    --primaryDarker: #f1f1f1;
+    --primaryVeryDark: #e3e3e3;
+    --secondaryColor: #7F63F4;
+    --secondaryColorDarker: #6a48f1;
+    --atentionColor: #f14848;
+    --pureRed: #ff0000;
+    --signalRed: #ff1a1a;
+    --signalShineRed: rgba(255, 0, 0, 0.6);
+    --signalGreen: #00cc44;
+    --signalShineGreen: rgba(0, 255, 0, 0.5);
+    --hover: rgba(127, 99, 244, 0.15);
+    --selected: rgba(127, 99, 244, 0.3);
+    --headingFontSize: 1.5rem;
+    --borderRadius: 0.4rem;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.ticket {
+    border: 2px solid #333;
+    max-height: 1150px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 1.5fr 1fr 1fr 50px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px; 
+    aspect-ratio: 1/1.414;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 100px;
+    background-color: var(--secondaryColor);
+    padding: 0 0cm 0 1cm;
+    color: var(--primaryColor);
+}
+
+#metis-logo{
+    height: 50%;
+    width: auto;
+}
+
+#buyNewTicketsQrCode{
+    height: 100%;
+    width: auto;
+}
+
+.headliner {
+    text-align: center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.headliner h1{
+    margin: 0;
+    text-align: center;
+}
+
+.headliner p{
+    margin: 0;
+    text-align: center;
+}
+
+.info {
+    font-size: 1.2em;
+    line-height: 1.6;
+    /*border: 2px dashed blue;*/
+}
+
+table{
+    height: fit-content;
+    width: calc(100% - 20px);
+    table-layout: auto;
+    border-collapse: collapse;
+    text-align: left;
+    margin: 2rem 10px 0 10px;
+    position: relative;
+}
+
+table caption{
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 1em;
+    caption-side: top;
+    text-align: left;
+    top: 0;
+    left: 0;
+    /*background-color: var(--secondaryColor);*/
+    color: var(--blackLighter);
+    border-bottom: 2px solid var(--secondaryColor);
+}
+
+table thead{
+    margin: 2rem 0 0 0;
+}
+
+#service caption {
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 1em;
+}
+
+#service th,
+#service td {
+    padding: 0.2em;
+    text-align: left;
+}
+
+#service th {
+    width: 40%;
+}
+
+#teilnahmebedingungen td{
+    font-size: 16px;
+}
+
+.bc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /*border: 2px dashed red;*/
+}
+
+footer {
+    text-align: center;
+    font-size: 0.9em;
+    color: #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*border: 2px dashed green;*/
+}

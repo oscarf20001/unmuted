@@ -204,10 +204,20 @@ function showPaymentForm(){
 
 function clearTicketContainer(parentElement){
     parentElement.innerHTML = ''; // vorherige Ergebnisse löschen
+    document.getElementById('ticketCountResponseText').innerHTML = '<span></span>';
 }
 
 function hidePaymentForm(){
     document.getElementById('takePaymentContainer').style.display = 'none';
+    clearPaymentForm();
+}
+
+function clearPaymentForm(){
+    let betragInput = document.getElementById('receivedMoney');
+    let methodInput = document.getElementById('paymentMethod');
+
+    betragInput.value = '';
+    methodInput.value = '';
 }
 
 async function executeTransaction(data){
@@ -307,7 +317,16 @@ paymentForm.addEventListener('submit', async (event) => {
             const handover = await executeTransaction(data);
             clearInputs('payment');
             console.log('PHP Response:', handover);
+
+            // Nachricht anzeigen, dass alles geklappt hat: 
             createAndDisplayMessage(true, handover.message);
+
+            // Payment-Form löschen und nicht mehr anzeigen:
+            hidePaymentForm();
+
+            // Ticket Container leeren:
+            clearTicketContainer(document.getElementById('ticketContainer'));
+
             return;
         } catch(err) {
             createAndDisplayMessage(false, 'Fehler beim Ausführen des Bezahlvorgangs: ' + err);

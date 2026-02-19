@@ -113,7 +113,7 @@ export function clearInputs(){
     // Check capacity
     checkCapacity();
 
-    document.getElementById('mySelect').value = '1';
+    document.getElementById('quantity').value = 1;
 }
 
 async function getCapacity(date){

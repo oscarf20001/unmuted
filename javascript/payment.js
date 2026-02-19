@@ -238,6 +238,8 @@ searchForm.addEventListener('submit', async (event) => {
     const formData = new FormData(searchForm);
     console.log("🔜 Checking Formular...");
 
+    createAndDisplayMessage(true, 'Searching for Person...');
+
     if(!!checkPaymentSearchFormular(formData)){
         console.log('🔜 Searching for Person...');
 
@@ -265,10 +267,13 @@ searchForm.addEventListener('submit', async (event) => {
             return;
 
         } catch(err) {
+            createAndDisplayMessage(false, 'Serverfehler: ' + err);
             console.error('Fehler beim Senden an PHP', err);
             return false;
         }
     }
+
+    createAndDisplayMessage(false, 'Ungültiges Formular');
     console.log("❌ Invalid Formular - Aborting");
     return;
 });
@@ -286,6 +291,8 @@ paymentForm.addEventListener('submit', async (event) => {
     const selectedTicketId = getSelectedCheckbox();
     if(!!checkExecutePaymentFormular(formData, selectedTicketId)){
 
+        createAndDisplayMessage(true, 'Trying to execute payment and mail delivery!');
+
         let data = {
             ticketId: parseInt(selectedTicketId),
             money: parseInt(formData.get('receivedMoney')),
@@ -300,8 +307,10 @@ paymentForm.addEventListener('submit', async (event) => {
             const handover = await executeTransaction(data);
             clearInputs('payment');
             console.log('PHP Response:', handover);
+            createAndDisplayMessage(true, handover.message);
             return;
         } catch(err) {
+            createAndDisplayMessage(false, 'Fehler beim Ausführen des Bezahlvorgangs: ' + err);
             console.error('Fehler beim Senden an PHP', err);
             return false;
         }

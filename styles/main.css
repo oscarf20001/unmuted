@@ -453,7 +453,6 @@ footer #links *{
 
   opacity: 0;
   transform: translateY(8px) scale(0.98);
-  animation: messageEnter 0.4s ease forwards;
 }
 
 /* Entry animation = perceived speed */
@@ -571,13 +570,13 @@ footer #links *{
 @keyframes toastIn {
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes toastOut {
   to {
     opacity: 0;
-    transform: translateX(-50%) translateY(-16px) scale(0.96);
+    transform: translateY(-16px) scale(0.96);
   }
 }

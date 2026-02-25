@@ -135,7 +135,7 @@ function sendConfirmationEmail(
 
                 <p style="line-height:1.6;color:#b5b8c2;">
                     Wir freuen uns sehr, Sie bei unserer Aufführung begrüßen zu dürfen!<br>
-                    Bei Fragen melden Sie sich jederzeit gerne bei uns.
+                    Bei Fragen melden Sie sich jederzeit gerne bei uns. Kontaktmöglichkeiten finden Sie <a href="https://www.curiegymnasium.de/qa/">hier</a>
                 </p>
 
                 <p style="margin-top:2rem;font-weight:500;color:#ffffff;">
@@ -192,10 +192,23 @@ HTML;
         $mail->setFrom($mailUsername, 'Marie-Curie-Gymnasium – SK Musical');
         $mail->addReplyTo($mailUsername, 'SK Musical Team');
         $mail->addAddress($email, $vornameSafe);
+        $mail->addCustomHeader(
+        'List-Unsubscribe',
+        '<mailto:' . $mailUsername . '>'
+        );
 
         $mail->isHTML(true);
         $mail->Subject = 'Viel Spaß bei unserem Musical 🥳 | SK Musical';
         $mail->Body    = $nachricht;
+         $mail->AltBody = "
+        Hallo {$vornameSafe},
+
+        ihre Bezahlung ist bei uns eingegangen. Ihr Ticket finden Sie im Anhang
+        Wir freuen uns auf Ihr kommen!
+
+        Ihr SK-Musical-Team
+        Marie-Curie-Gymnasium
+        ";
 
         // PDF anhängen
         $mail->addAttachment($tmpPath, 'Ticket.pdf');

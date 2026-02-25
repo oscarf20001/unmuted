@@ -34,6 +34,7 @@
             <option value="3">3 Tickets</option>
             <option value="4">4 Tickets</option>
             <option value="5">5 Tickets</option>
+            <option value="10">10 Tickets</option>
         </select>
         <label for="quantity" id="quantityLabel">Tickets:<sup>*</sup></label>
     </div>

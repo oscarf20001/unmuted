@@ -111,12 +111,12 @@ function createTicketCards(count, tickets, textId){
                 <ol class="ticket-list">
                     <li><p>ID: <span>${ticket.id}</span></p></li>
                     <li><p>Email: <span>${ticket.email}</span></p></li>
-                    <li><p>Betrag: <span>${ticket.price}€</span></p></li>
+                    <li><p>Zu bezahlen: <span>${ticket.price}€</span></p></li>
                     <li><p>Vorstellungstag:
                         <span>${ticket.day} Uhr</span>
                     </p></li>
-                    <li><p>Bezahlt:
-                        <span>${ticket.current_paid} Uhr</span>
+                    <li><p>Gezahlt:
+                        <span>${ticket.current_paid} €</span>
                     </p></li>
                     <li><p>Confirmed:
                         <span>${ticket.confirmed} Uhr</span>

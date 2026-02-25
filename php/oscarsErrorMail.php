@@ -45,7 +45,7 @@ function informOscar($mailHost, $mailUsername, $mailPassword, $mailPort, $msg, $
             $errorType = 'Mailversand fehlgeschlagen';
             break;
 
-        case str_contains($msg, 'existiert'):
+        case str_contains($msg, needle: 'existiert'):
             $errorType = 'Already existing ticket';
             break;
 

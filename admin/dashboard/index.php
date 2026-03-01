@@ -67,8 +67,8 @@ if (isset($_SESSION['user_id'])):
                                 datasets: [{
                                     label: 'Tickets pro Tag',
                                     data: <?= json_encode($data) ?>,
-                                    backgroundColor: '#3498db',
-                                    borderColor: '#2980b9',
+                                    backgroundColor: '#FFC300',
+                                    borderColor: '#a67f01',
                                     borderWidth: 1
                                 }]
                             },

@@ -1,0 +1,150 @@
+/* =========================
+   DASHBOARD GRID FIX
+   ========================= */
+
+/* Sidebar-Breite (anpassen falls nötig) */
+:root {
+  --sidebar-width: 220px;
+  --card-radius: 16px;
+}
+
+/* Main korrekt neben Sidebar platzieren */
+main {
+  margin-left: var(--sidebar-width);
+  padding: 3rem 3.5rem;
+  display: block;
+}
+
+/* =========================
+   LIST RESET
+   ========================= */
+
+main ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  grid-auto-rows: auto;
+  gap: 2.5rem;
+
+  align-items: stretch;
+}
+
+/* =========================
+   KARTEN DESIGN
+   ========================= */
+
+main ol > li {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.015)
+  );
+
+  border-radius: var(--card-radius);
+  padding: 1.8rem 2rem;
+
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--color-border-subtle);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+
+  backdrop-filter: blur(8px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+main ol > li:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-strong);
+}
+
+/* =========================
+   KARTEN TITEL
+   ========================= */
+
+main ol > li > div:first-child {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-highlight-gold);
+}
+
+/* =========================
+   KARTEN CONTENT
+   ========================= */
+
+main ol > li > div:last-child {
+  font-size: 1.15rem;
+  color: var(--color-text-primary);
+}
+
+/* =========================
+   CHART CANVAS FIX
+   ========================= */
+
+canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* =========================
+   SPEZIAL-LAYOUTS
+   ========================= */
+
+/* 1️⃣ Histogramm: 2 Spalten breit */
+main ol > li:first-child {
+  grid-column: 1 / span 2;
+}
+
+/* 2️⃣ Durchschnittliche Tickets: 1 Spalte */
+main ol > li:nth-child(2) {
+  grid-column: 3 / span 1;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ab hier alles normal im 3-Spalten-Grid */
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1400px) {
+  main ol {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Histogramm volle Breite */
+  main ol > li:first-child {
+    grid-column: 1 / -1;
+  }
+
+  /* Durchschnitt unter Histogramm */
+  main ol > li:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  main {
+    margin-left: 0;
+    padding: 2rem;
+  }
+
+  main ol {
+    grid-template-columns: 1fr;
+  }
+
+  main ol > li {
+    grid-column: 1 / -1;
+  }
+}

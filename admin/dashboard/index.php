@@ -12,6 +12,7 @@ if (isset($_SESSION['user_id'])):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page-Title | Unmuted</title>
     <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="../../styles/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>   <!-- Font Awesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
@@ -30,7 +31,7 @@ if (isset($_SESSION['user_id'])):
     <main style="display:flex;justify-content:center;align-items:center;">
         <ol>
             <li>
-                <div>Histogramm Ticketverkaufhistorie</div>
+                <div>Histogramm Ticketverkauf pro Tag</div>
                 <?php
                     $historyTicketsStmt = $conn->prepare("
                         SELECT DATE(booked) AS buchungstag, 
@@ -55,7 +56,7 @@ if (isset($_SESSION['user_id'])):
                 ?>
 
                 <div class="histogram">
-                    <canvas id="ticketHistogram" style="max-width: 600px; height: 300px;"></canvas>
+                    <canvas id="ticketHistogram" style="width: 1200px; height: 600px;"></canvas>
                     <script>
                         const ctx = document.getElementById('ticketHistogram').getContext('2d');
 
@@ -86,6 +87,7 @@ if (isset($_SESSION['user_id'])):
                                     }
                                 },
                                 scales: {
+                                    maintainAspectRatio: false,
                                     y: {
                                         beginAtZero: true,
                                         title: {
@@ -123,7 +125,6 @@ if (isset($_SESSION['user_id'])):
             <li>
                 <div>11.03 verkaufte Tickets</div>
                 <div>
-                    <canvas id="ticketGauge" width="400" height="200"></canvas>
 
                     <?php
                         $tickets11Stmt = $conn->prepare('SELECT SUM(ticketCount) AS total, LEFT(day, 10) AS buchungstag FROM tickets GROUP BY LEFT(day, 10) ORDER BY buchungstag;');
@@ -134,57 +135,80 @@ if (isset($_SESSION['user_id'])):
                         while ($row = $result->fetch_assoc()) {
                             $ticketCountPerDay[] = $row;
                         }
+
+                        $sold = (int) $ticketCountPerDay[0]['total'];
+                        $max = 400;
+                        $percent = min(100, round(($sold / $max) * 100));
                     ?>
 
-                   <script>
+                    <canvas id="ticketBar" width="400" height="80"></canvas>
+
+                    <script>
                         const sold = <?= (int)$ticketCountPerDay[0]['total'] ?>;
                         const maxTickets = 400;
                         const remaining = Math.max(maxTickets - sold, 0);
 
-                        const gauge = document.getElementById('ticketGauge').getContext('2d');
-
-                        new Chart(gauge, {
-                            type: 'doughnut',
+                        new Chart(document.getElementById('ticketBar'), {
+                            type: 'bar',
                             data: {
-                                datasets: [{
-                                    data: [sold, remaining],
-                                    backgroundColor: [
-                                        sold < 150 ? '#FF4C4C' : sold < 300 ? '#FFC300' : '#4CAF50',
-                                        '#3a0f14'
-                                    ],
-                                    borderWidth: 0
-                                }]
+                                labels: ['Tickets'],
+                                datasets: [
+                                    {
+                                        label: 'Verkauft',
+                                        data: [sold],
+                                        backgroundColor:
+                                            sold < 150 ? '#FF4C4C' :
+                                            sold < 300 ? '#FFC300' :
+                                            '#4CAF50',
+                                        borderRadius: 8,
+                                        barThickness: 26
+                                    },
+                                    {
+                                        label: 'Verfügbar',
+                                        data: [remaining],
+                                        backgroundColor: '#3a0f14',
+                                        borderRadius: 8,
+                                        barThickness: 26
+                                    }
+                                ]
                             },
                             options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                rotation: -Math.PI,
-                                circumference: Math.PI,
-                                cutout: '75%',
+                                indexAxis: 'y', // 🔥 horizontal
+                                responsive: false,
+                                scales: {
+                                    x: {
+                                        stacked: true,
+                                        min: 0,
+                                        max: maxTickets,
+                                        display: false
+                                    },
+                                    y: {
+                                        stacked: true,
+                                        display: false
+                                    }
+                                },
                                 plugins: {
                                     legend: { display: false },
                                     tooltip: { enabled: false }
                                 }
                             },
                             plugins: [{
-                                id: 'centerText',
+                                id: 'centerLabel',
                                 afterDraw(chart) {
                                     const { ctx, chartArea } = chart;
-                                    const centerX = (chartArea.left + chartArea.right) / 2;
-                                    const centerY = chartArea.bottom - 20;
+                                    const x = chartArea.left + chartArea.width / 2;
+                                    const y = chartArea.top + chartArea.height / 2 + 4;
 
                                     ctx.save();
-                                    ctx.font = 'bold 22px Arial';
+                                    ctx.font = 'bold 16px Arial';
                                     ctx.fillStyle = '#fff';
                                     ctx.textAlign = 'center';
-                                    ctx.fillText(`${sold} / ${maxTickets}`, centerX, centerY);
-                                    ctx.font = '14px Arial';
-                                    ctx.fillText('Tickets verkauft', centerX, centerY + 20);
+                                    ctx.fillText(`${sold} / ${maxTickets}`, x, y);
                                     ctx.restore();
                                 }
                             }]
                         });
-                    </script>
+                        </script>
                 </div>
             </li>
             <li>
@@ -206,7 +230,76 @@ if (isset($_SESSION['user_id'])):
             </li>
             <li>
                 <div>12.03 verkaufte Tickets</div>
-                <div><?= $ticketCountPerDay[1]['total'] ?></div>
+                <div>
+
+                    <canvas id="ticketBar12" width="400" height="80"></canvas>
+
+                    <script>
+                        const sold12 = <?= (int)$ticketCountPerDay[1]['total'] ?>;
+                        const remaining12 = Math.max(maxTickets - sold12, 0);
+
+                        new Chart(document.getElementById('ticketBar12'), {
+                            type: 'bar',
+                            data: {
+                                labels: ['Tickets'],
+                                datasets: [
+                                    {
+                                        label: 'Verkauft',
+                                        data: [sold12],
+                                        backgroundColor:
+                                            sold12 < 150 ? '#FF4C4C' :
+                                            sold12 < 300 ? '#FFC300' :
+                                            '#4CAF50',
+                                        borderRadius: 8,
+                                        barThickness: 26
+                                    },
+                                    {
+                                        label: 'Verfügbar',
+                                        data: [remaining12],
+                                        backgroundColor: '#3a0f14',
+                                        borderRadius: 8,
+                                        barThickness: 26
+                                    }
+                                ]
+                            },
+                            options: {
+                                indexAxis: 'y', // 🔥 horizontal
+                                responsive: false,
+                                scales: {
+                                    x: {
+                                        stacked: true,
+                                        min: 0,
+                                        max: maxTickets,
+                                        display: false
+                                    },
+                                    y: {
+                                        stacked: true,
+                                        display: false
+                                    }
+                                },
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: { enabled: false }
+                                }
+                            },
+                            plugins: [{
+                                id: 'centerLabel',
+                                afterDraw(chart) {
+                                    const { ctx, chartArea } = chart;
+                                    const x = chartArea.left + chartArea.width / 2;
+                                    const y = chartArea.top + chartArea.height / 2 + 4;
+
+                                    ctx.save();
+                                    ctx.font = 'bold 16px Arial';
+                                    ctx.fillStyle = '#fff';
+                                    ctx.textAlign = 'center';
+                                    ctx.fillText(`${sold12} / ${maxTickets}`, x, y);
+                                    ctx.restore();
+                                }
+                            }]
+                        });
+                        </script>
+                </div>
             </li>
             <li>
                 <div>12.03 Finanzen</div>
@@ -215,20 +308,78 @@ if (isset($_SESSION['user_id'])):
             <li>
                 <div>Gesamt verkaufte Tickets</div>
                 <div>
-                    <?php
-                        $overallTicketsStmt = $conn->prepare('SELECT SUM(ticketCount) AS overalLTickets FROM tickets;');
-                        $overallTicketsStmt->execute();
-                        $result = $overallTicketsStmt->get_result();
+                    <canvas id="ticketBarWhole" width="400" height="80"></canvas>
 
-                        $row = $result->fetch_assoc(); // fetch_assoc() holen
-                        $overallTickets = $row['overalLTickets'];
+                    <script>
+                        const soldWhole = <?= (int)$ticketCountPerDay[1]['total']  + (int)$ticketCountPerDay[0]['total']?>;
+                        const maxWhole = 800;
+                        const remainingWhole = Math.max(maxWhole - soldWhole, 0);
 
-                    ?>
-                    <?= $overallTickets ?>
+                        new Chart(document.getElementById('ticketBarWhole'), {
+                            type: 'bar',
+                            data: {
+                                labels: ['Tickets'],
+                                datasets: [
+                                    {
+                                        label: 'Verkauft',
+                                        data: [soldWhole],
+                                        backgroundColor:
+                                            soldWhole < 300 ? '#FF4C4C' :
+                                            soldWhole < 600 ? '#FFC300' :
+                                            '#4CAF50',
+                                        borderRadius: 8,
+                                        barThickness: 26
+                                    },
+                                    {
+                                        label: 'Verfügbar',
+                                        data: [remainingWhole],
+                                        backgroundColor: '#3a0f14',
+                                        borderRadius: 8,
+                                        barThickness: 26
+                                    }
+                                ]
+                            },
+                            options: {
+                                indexAxis: 'y', // 🔥 horizontal
+                                responsive: false,
+                                scales: {
+                                    x: {
+                                        stacked: true,
+                                        min: 0,
+                                        max: maxWhole,
+                                        display: false
+                                    },
+                                    y: {
+                                        stacked: true,
+                                        display: false
+                                    }
+                                },
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: { enabled: false }
+                                }
+                            },
+                            plugins: [{
+                                id: 'centerLabel',
+                                afterDraw(chart) {
+                                    const { ctx, chartArea } = chart;
+                                    const x = chartArea.left + chartArea.width / 2;
+                                    const y = chartArea.top + chartArea.height / 2 + 4;
+
+                                    ctx.save();
+                                    ctx.font = 'bold 16px Arial';
+                                    ctx.fillStyle = '#fff';
+                                    ctx.textAlign = 'center';
+                                    ctx.fillText(`${soldWhole} / ${maxWhole}`, x, y);
+                                    ctx.restore();
+                                }
+                            }]
+                        });
+                    </script>
                 </div>
             </li>
-            <li>Gesamt Finanzen
-                <div></div>
+            <li>
+                <div>Gesamt Finanzen</div>
                 <div>
                     <?php
                         $overallFinances = $conn->prepare('SELECT SUM(price) AS overallPrices FROM tickets;');

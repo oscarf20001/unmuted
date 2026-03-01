@@ -580,3 +580,9 @@ footer #links *{
     transform: translateY(-16px) scale(0.96);
   }
 }
+
+@media (max-width: 768px) {
+  #navigation-links {
+    display: none;
+  }
+}

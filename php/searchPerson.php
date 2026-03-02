@@ -10,7 +10,15 @@ $search_type = $data['search_type'];
 switch ($search_type) {
     case 'email':
         # Suche nach Email
-        $searchStatement = $conn->prepare("SELECT t.*, COALESCE(p.new_paid, 0) AS new_paid FROM tickets t LEFT JOIN payments p ON p.ticket_id = t.id WHERE t.email = ? ORDER BY p.id DESC LIMIT 1;");
+        $searchStatement = $conn->prepare("SELECT 
+                                                    t.*, 
+                                                    COALESCE(p.new_paid, 0) AS current_paid 
+                                                    FROM tickets t 
+                                                    LEFT JOIN payments p 
+                                                    ON p.ticket_id = t.id 
+                                                    WHERE t.email = ? 
+                                                    ORDER BY p.id DESC
+                                                    LIMIT 1;");
         $searchStatement->bind_param('s', $search_parameter);
         break;
 

@@ -191,6 +191,12 @@ HTML;
 
         $mail->setFrom($mailUsername, 'Marie-Curie-Gymnasium – SK Musical');
         $mail->addReplyTo($mailUsername, 'SK Musical Team');
+        $email = trim($email);
+
+        if (empty($email) || $email === '-' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $email = 'standard@example.com';
+        }
+
         $mail->addAddress($email, $vornameSafe);
         $mail->addCustomHeader(
         'List-Unsubscribe',

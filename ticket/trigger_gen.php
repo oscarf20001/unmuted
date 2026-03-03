@@ -2,7 +2,8 @@
 header('Content-Type: application/json; charset=utf-8');
 date_default_timezone_set('Europe/Berlin');
 
-require_once __DIR__ . '/../server/php/db_connection.php';
+//require_once __DIR__ . '/../server/php/db_connection.php';
+require_once __DIR__ . '/../php/config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;

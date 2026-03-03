@@ -394,7 +394,7 @@ async function generatePDF(person_id) {
           <tr><th>Ticket-ID</th><td>${person_id}</td></tr>
           <tr><th>Vorname</th><td>${data[0].vorname}</td></tr>
           <tr><th>Nachname</th><td>${data[0].nachname}</td></tr>
-          <tr><th>E-Mail</th><td>${data[0].email}</td></tr>
+          <tr><th>E-Mail</th><td>${data[0].vorname == 'Freiticket' ? '-' : (data[0].email ?? '-')}</td></tr>
         </tbody>
       </table>
 

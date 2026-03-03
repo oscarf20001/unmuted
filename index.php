@@ -43,11 +43,11 @@ session_start();
     ACCOUNT-SIGN ON TOP RIGHT CORNER
     =================================================
     -->
-    <header>
+    <div>
         <?php
             include 'htmlStructure/account.php';
         ?>
-    </header>
+    </div>
 
     <!--
     =================================================

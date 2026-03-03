@@ -23,6 +23,11 @@ if (isset($_SESSION['user_id'])):
             require '../../htmlStructure/header.php';
         ?>
     </header>
+    <div>
+        <?php
+            include '../../htmlStructure/account.php';
+        ?>
+    </div>
     <aside>
         <?php
             require '../../htmlStructure/sidebar.php';

@@ -137,7 +137,7 @@ if (isset($_SESSION['user_id'])):
                         }
 
                         $sold = (int) $ticketCountPerDay[0]['total'];
-                        $max = 400;
+                        $max = 350;
                         $percent = min(100, round(($sold / $max) * 100));
                     ?>
 
@@ -145,7 +145,7 @@ if (isset($_SESSION['user_id'])):
 
                     <script>
                         const sold = <?= (int)$ticketCountPerDay[0]['total'] ?>;
-                        const maxTickets = 400;
+                        const maxTickets = 350;
                         const remaining = Math.max(maxTickets - sold, 0);
 
                         new Chart(document.getElementById('ticketBar'), {
@@ -157,8 +157,8 @@ if (isset($_SESSION['user_id'])):
                                         label: 'Verkauft',
                                         data: [sold],
                                         backgroundColor:
-                                            sold < 150 ? '#FF4C4C' :
-                                            sold < 300 ? '#FFC300' :
+                                            sold < 100 ? '#FF4C4C' :
+                                            sold < 250 ? '#FFC300' :
                                             '#4CAF50',
                                         borderRadius: 8,
                                         barThickness: 26
@@ -247,8 +247,8 @@ if (isset($_SESSION['user_id'])):
                                         label: 'Verkauft',
                                         data: [sold12],
                                         backgroundColor:
-                                            sold12 < 150 ? '#FF4C4C' :
-                                            sold12 < 300 ? '#FFC300' :
+                                            sold12 < 100 ? '#FF4C4C' :
+                                            sold12 < 250 ? '#FFC300' :
                                             '#4CAF50',
                                         borderRadius: 8,
                                         barThickness: 26
@@ -312,7 +312,7 @@ if (isset($_SESSION['user_id'])):
 
                     <script>
                         const soldWhole = <?= (int)$ticketCountPerDay[1]['total']  + (int)$ticketCountPerDay[0]['total']?>;
-                        const maxWhole = 800;
+                        const maxWhole = 700;
                         const remainingWhole = Math.max(maxWhole - soldWhole, 0);
 
                         new Chart(document.getElementById('ticketBarWhole'), {
@@ -324,8 +324,8 @@ if (isset($_SESSION['user_id'])):
                                         label: 'Verkauft',
                                         data: [soldWhole],
                                         backgroundColor:
-                                            soldWhole < 300 ? '#FF4C4C' :
-                                            soldWhole < 600 ? '#FFC300' :
+                                            soldWhole < 250 ? '#FF4C4C' :
+                                            soldWhole < 550 ? '#FFC300' :
                                             '#4CAF50',
                                         borderRadius: 8,
                                         barThickness: 26

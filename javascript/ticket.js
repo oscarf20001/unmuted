@@ -70,7 +70,7 @@ async function handOverToPHP(person){
 }
 
 export async function checkCapacity() {
-    const MAX_CAPACITY = 400;
+    const MAX_CAPACITY = 350;
 
     const showDates = [
         '11-03-2026 19:00:00',

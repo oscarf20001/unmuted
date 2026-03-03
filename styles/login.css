@@ -126,3 +126,37 @@ body {
   background: linear-gradient(to right, #e6c88c, #d8b56a);
   color: var(--color-bg-main);
 }
+
+/* =========================
+   Responsive Anpassungen
+   ========================= */
+@media (max-width: 768px) {
+  .login-wrapper {
+    width: 90%;        /* fast volle Breite */
+    max-width: none;   /* Max-Width aufheben */
+    padding: 1.5rem;   /* etwas weniger Padding für kleine Bildschirme */
+  }
+
+  .login-form {
+    padding: 2rem 1.5rem; /* Form-Padding reduzieren */
+  }
+
+  .login-form h2 {
+    font-size: 1.5rem;    /* Überschrift etwas kleiner */
+    gap: 0.4rem;
+  }
+
+  .input-field input {
+    padding: 0.65rem 0.5rem; /* Inputs etwas kleiner */
+    font-size: 0.95rem;
+  }
+
+  .input-field label {
+    font-size: 0.8rem;   /* Label kleiner */
+  }
+
+  .login-form button {
+    padding: 0.9rem;     /* Button kleiner */
+    font-size: 0.95rem;
+  }
+}

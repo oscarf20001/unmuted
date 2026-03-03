@@ -13,7 +13,7 @@
         </div>
 
         <?php
-            $redirect = $_GET['redirect'] ?? '/admin/';
+            $redirect = $_GET['redirect'] ?? '/';
         ?>
 
         <input type="hidden" name="redirect" id="redirect" value="<?= htmlspecialchars($redirect) ?>">

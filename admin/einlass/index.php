@@ -1,8 +1,6 @@
 <?php
-session_start();
+require '../../php/auth.php';
 require '../../php/config.php';
-
-if (isset($_SESSION['user_id'])):
 ?>
 
 <!DOCTYPE html>
@@ -35,9 +33,3 @@ if (isset($_SESSION['user_id'])):
     </footer>
 </body>
 </html>
-
-<?php
-else:
-header('Location: ../../login/');
-endif;
-?>

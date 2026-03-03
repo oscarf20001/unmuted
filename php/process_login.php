@@ -1,35 +1,41 @@
 <?php
 session_start();
-require_once 'config.php'; // hier deine mysqli Verbindung $mysqli
+require 'config.php';
 
-// POST-Daten holen und trimmen
-$username = trim($_POST['username'] ?? '');
-$password = trim($_POST['password'] ?? '');
+header('Content-Type: application/json');
 
-if (!$username || !$password) {
-    echo json_encode(['success' => false, 'message' => 'Bitte alle Felder ausfüllen.']);
-    exit;
+$username = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
+$redirect = $_POST['redirect'] ?? '/admin/dashboard/';
+
+// Sicherheitscheck Redirect
+if (strpos($redirect, '/') !== 0) {
+    $redirect = '/admin/dashboard/';
 }
 
-// SHA-1 Passwort-Hash erstellen
-$passwordHash = sha1($password);
-
-// Prepared Statement
-$stmt = $conn->prepare("SELECT id, username FROM user WHERE username = ? AND hashed_password = ?");
-$stmt->bind_param("ss", $username, $passwordHash);
+// User laden
+$stmt = $conn->prepare("SELECT id, hashed_password FROM user WHERE username = ?");
+$stmt->bind_param("s", $username);
 $stmt->execute();
 $result = $stmt->get_result();
-
-if($user = $result->fetch_assoc()){
-    // Login erfolgreich -> Session setzen
-    $_SESSION['user_id'] = $user['id'];
-    $_SESSION['username'] = $user['username'];
-
-    echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Benutzername oder Passwort falsch.']);
-}
-
+$user = $result->fetch_assoc();
 $stmt->close();
-$conn->close();
-exit;
+
+//if ($user && password_verify($password, $user['hashed_password'])) {
+if ($user && sha1($password) == $user['hashed_password']) {
+
+    session_regenerate_id(true);
+
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['LAST_ACTIVITY'] = time();
+
+    echo json_encode([
+        'success' => true,
+        'redirect' => $redirect
+    ]);
+} else {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Ungültige Zugangsdaten.'
+    ]);
+}

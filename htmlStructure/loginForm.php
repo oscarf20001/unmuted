@@ -12,6 +12,12 @@
             <label for="password">Passwort</label>
         </div>
 
+        <?php
+            $redirect = $_GET['redirect'] ?? '/admin/';
+        ?>
+
+        <input type="hidden" name="redirect" id="redirect" value="<?= htmlspecialchars($redirect) ?>">
+
         <button type="submit">Einloggen</button>
 
         <p id="loginError" style="color: #d6455d; display: none; margin-top: 1rem;">Bitte füllen Sie alle Felder korrekt aus.</p>
@@ -22,20 +28,17 @@
 document.getElementById('loginForm').addEventListener('submit', async function(e){
     e.preventDefault();
 
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const loginError = document.getElementById('loginError');
+    const formData = new FormData(this);
 
     const response = await fetch('../php/process_login.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        body: new URLSearchParams(formData)
     });
 
     const result = await response.json();
 
     if(result.success){
-        window.location.href = '../';
+        window.location.href = result.redirect;
     } else {
         loginError.textContent = result.message;
         loginError.style.display = 'block';

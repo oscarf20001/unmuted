@@ -13,7 +13,7 @@ if (isset($_SESSION['user_id'])):
     <script>
         const accountIcon = document.querySelector('.account');
         accountIcon.addEventListener('click', () => {
-            window.location.href = '/logout/';
+            window.location.href = '/php/logout.php';
         });
     </script>
 

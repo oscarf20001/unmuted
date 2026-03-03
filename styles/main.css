@@ -10,6 +10,7 @@
      Accent Colors
      ========================= */
   --color-accent: #950b25;
+  --color-accent-darker: #430510;
   --color-accent-hover: #b31235;
 
   /* =========================
@@ -130,26 +131,62 @@ body {
    Sidebar Container
    ========================= */
 
+/* =========================
+   Hamburger Button
+   ========================= */
+#hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1100;
+  color: white;
+}
+
+/* =========================
+   Overlay (Mobile)
+   ========================= */
+#sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(81, 4, 4, 0.5);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+  z-index: 999;
+}
+
+#sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =========================
+   Sidebar
+   ========================= */
 #navigation-links {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh; /* Voller Bildschirm */
+  height: 100vh;
   width: 220px;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--color-accent-darker);
   backdrop-filter: blur(8px);
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
   display: flex;
   flex-direction: column;
-  padding-top: 2rem;
+  padding-top: 4rem;
   gap: 1rem;
   z-index: 1000;
+  transition: transform 0.3s ease;
 }
 
 /* =========================
-   Sidebar Link Element
+   Link Elemente
    ========================= */
-
 .navigation-link-element {
   display: flex;
   align-items: center;
@@ -162,11 +199,39 @@ body {
   font-weight: 500;
 }
 
+.navigation-link-element:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateX(4px);
+}
+
 .navigation-link-element i {
   font-size: 1.2rem;
-  color: var(--color-text-secondary);
   min-width: 24px;
   text-align: center;
+}
+
+/* =========================
+   Mobile Ansicht
+   ========================= */
+@media (max-width: 900px) {
+  #navigation-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: var(--color-accent-darker);
+    transform: translateX(-100%);
+    transition: 0.3s;
+  }
+
+  #navigation-links.active {
+    transform: translateX(0);
+  }
+
+  #hamburger{
+    display: block;
+  }
 }
 
 /* =========================
@@ -578,11 +643,5 @@ footer #links *{
   to {
     opacity: 0;
     transform: translateY(-16px) scale(0.96);
-  }
-}
-
-@media (max-width: 768px) {
-  #navigation-links {
-    display: none;
   }
 }

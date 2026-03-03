@@ -191,3 +191,10 @@ footer #links {
   color: var(--color-text-primary);
   font-weight: 500;
 }
+
+@media screen and (max-width: 900px) {
+  .ticket-list{
+    display: flex;
+    flex-direction: column;
+  }   
+}

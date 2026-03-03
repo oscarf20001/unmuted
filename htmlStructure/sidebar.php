@@ -1,7 +1,14 @@
-<?php
-//session_start();
-if (isset($_SESSION['user_id'])): // User ist eingeloggt
-?>
+<?php if (isset($_SESSION['user_id'])): ?>
+    
+<!-- Hamburger Button (nur mobil sichtbar) -->
+<div id="hamburger">
+    <i class="fa-solid fa-bars"></i>
+</div>
+
+<!-- Overlay für Mobile -->
+<div id="sidebar-overlay"></div>
+
+<!-- Sidebar -->
 <div id="navigation-links">
     <div id="navigation-dashboard" class="navigation-link-element">
         <i class="fa-solid fa-gauge"></i>
@@ -26,16 +33,30 @@ if (isset($_SESSION['user_id'])): // User ist eingeloggt
 </div>
 
 <script>
-    const elements = document.querySelectorAll('.navigation-link-element');
-    elements.forEach(container => {
-        container.addEventListener('click', () => {
-            const id = container.id;
-            const id_array = id.split('-');
-            const elementSpecification = id_array[1];
-            window.location.href = "/admin/" + elementSpecification + "/";
-        });
+const elements = document.querySelectorAll('.navigation-link-element');
+elements.forEach(container => {
+    container.addEventListener('click', () => {
+        const id = container.id;
+        const id_array = id.split('-');
+        const elementSpecification = id_array[1];
+        window.location.href = "/admin/" + elementSpecification + "/";
     });
+});
+
+// Hamburger Toggle
+const hamburger = document.getElementById('hamburger');
+const sidebar = document.getElementById('navigation-links');
+const overlay = document.getElementById('sidebar-overlay');
+
+hamburger.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+});
+
+overlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+});
 </script>
-<?php
-endif;
-?>
+
+<?php endif; ?>

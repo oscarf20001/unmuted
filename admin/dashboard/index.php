@@ -117,7 +117,7 @@ $averagePerDay = $totalDays > 0 ? $totalTickets / $totalDays : 0;
             </li>
 
             <?php
-            $max = 350;
+            $max = 367;
             for ($i = 0; $i < count($ticketCountPerDay); $i++):
                 $sold = (int) ($ticketCountPerDay[$i]['total'] ?? 0);
                 $remaining = max($max - $sold, 0);

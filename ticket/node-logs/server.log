@@ -185,3 +185,7 @@
 [2026-03-03T11:40:06.380Z] LOG: 🔍 Generierter Code: U-SKM_0133
 [2026-03-03T11:40:06.386Z] LOG: ✅ Barcode gespeichert unter /Users/oscarstreich/httpdocs/Metis/unmuted/ticket/barcodes/U-SKM_0133.png
 [2026-03-03T11:40:07.515Z] LOG: ✅ PDF wurde erstellt: /Users/oscarstreich/httpdocs/Metis/unmuted/ticket/gen_pdfs/ticket_person_133.pdf
+[2026-03-05T22:27:26.221Z] LOG: listening on port 3001
+[2026-03-05T22:27:45.457Z] LOG: 🔍 Generierter Code: U-SKM_0001
+[2026-03-05T22:27:45.474Z] LOG: ✅ Barcode gespeichert unter /Users/oscarstreich/httpdocs/Metis/unmuted/ticket/barcodes/U-SKM_0001.png
+[2026-03-05T22:27:47.984Z] LOG: ✅ PDF wurde erstellt: /Users/oscarstreich/httpdocs/Metis/unmuted/ticket/gen_pdfs/ticket_person_1.pdf

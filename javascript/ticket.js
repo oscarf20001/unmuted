@@ -91,6 +91,10 @@ function blockEvent(event){
     const element = document.getElementById(replaceSpaceWithDash(event));
     element.disabled = true;
     element.classList.add('disbaled');
+
+    const submitButton = document.getElementById("submit");
+    submitButton.disabled = true;
+    submitButton.classList.add('disabled');
 }
 
 function replaceSpaceWithDash(dateTime) {

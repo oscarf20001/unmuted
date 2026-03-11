@@ -60,6 +60,59 @@ require '../../php/config.php';
             return parseInt(last4, 10);
         }
 
+        function formatDate(dateString) {
+            const d = new Date(dateString);
+            return d.toLocaleString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatPrice(price) {
+            return Number(price).toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function renderTicket(ticket, scans, max) {
+    const feedbackContainer = document.getElementById('feedback');
+    const entranceRow = ticket.eingelassen
+        ? `<li>Einlass: <span>Bereits eingelassen</span></li>`
+        : '';
+
+    const html = `
+    <section class="ticket-card">
+        <h2>
+            <i class="fa-solid fa-ticket"></i>
+            ${escapeHtml(ticket.vorname)} ${escapeHtml(ticket.nachname)}
+        </h2>
+
+        <ol class="ticket-list">
+            <li>ID: <span>${ticket.id}</span></li>
+            <li>Email: <span>${ticket.email ? escapeHtml(ticket.email) : '-'}</span></li>
+            <li>Status: <span>${ticket.confirmed == 1 ? 'Bezahlt' : 'Nicht bezahlt'}</span></li>
+            <li>Betrag: <span>${ticket.summe ? formatPrice(ticket.summe) + ' €' : '-'}</span></li>
+            <li>Bezahlt am: <span>${ticket.bezahlt_am ? formatDate(ticket.bezahlt_am) + ' Uhr' : '-'}</span></li>
+            <li>Bezahlt bei: <span>${ticket.bezahlt_bei ? escapeHtml(ticket.bezahlt_bei) : '-'}</span></li>
+            <li>Einlass: <span>${scans} / ${max}</span></li>
+            ${entranceRow}
+        </ol>
+    </section>
+    `;
+
+    feedbackContainer.innerHTML = html;
+}
+
         async function fetchData(code){
             try {
                 const res = await fetch('../../php/fetchEntranceTicket.php', {
@@ -92,8 +145,16 @@ require '../../php/config.php';
             let code = extractCode(rawCode);
 
             try {
-                let ticket = await fetchData(code);
-                
+                let result = await fetchData(code);
+
+                console.log(result);
+                console.log(Boolean(result.data));
+                console.log(Boolean(result.data.ticket));
+
+                if (result.data && result.data.ticket) {
+                    renderTicket(result.data.ticket, result.data.scans, result.data.max);
+                    console.log(result.data.ticket);
+                }
             } catch (error) {
                 
             }

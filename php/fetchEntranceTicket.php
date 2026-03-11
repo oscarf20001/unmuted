@@ -1,215 +1,219 @@
 <?php
 
-/**
- * 
- * ==================================================================================================
- * THIS FILE HANDLES:
- * - The Search for one specific ticket issued through an code with a maximum amount of four digits
- * - The Handback of the possibly found ticket to javascript
- * ==================================================================================================
- * 
- */
-
 header('Content-Type: application/json');
-
 require_once 'config.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
-$code = $data['code'];
+$code = $data['code'] ?? null;
+$userId = $_SESSION['user_id'] ?? null;
 
-if (!$code) {
-    fail('Ungültige E-Mail-Adresse', $mailHost, $mailUsername, $mailPassword, $mailPort, $vorname, $nachname, $email);
+
+/*
+|--------------------------------------------------------------------------
+| STANDARD RESPONSE
+|--------------------------------------------------------------------------
+*/
+
+function respond($success, $message, $error = null, $data = [])
+{
+    echo json_encode([
+        'success' => $success,
+        'message' => $message,
+        'error' => $error,
+        'data' => array_merge([
+            'ticket' => null,
+            'scans' => 0,
+            'max' => 0
+        ], $data)
+    ]);
+    exit;
 }
 
-$userId = isset($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : null;
 
-/**
- * 
- * ==================================================================================================
- * DECLARING FUNCTIONS
- * ==================================================================================================
- * 
- */
+/*
+|--------------------------------------------------------------------------
+| GET TICKET
+|--------------------------------------------------------------------------
+*/
 
-function searchTicket($conn, $code){
-
+function getTicket($conn, $ticketId)
+{
     $stmt = $conn->prepare(
         "SELECT 
-            t.*, 
-            u.username AS bezahlt_bei, 
-            p.new_paid AS summe, 
+            t.*,
+            u.username AS bezahlt_bei,
+            p.new_paid AS summe,
             p.changed_at AS bezahlt_am
         FROM tickets t
-        JOIN payments p ON p.ticket_id = t.id
-        JOIN user u ON p.user_id = u.id
+        LEFT JOIN payments p ON p.ticket_id = t.id
+        LEFT JOIN user u ON p.user_id = u.id
         WHERE t.id = ?
         ORDER BY p.changed_at DESC
         LIMIT 1"
     );
 
-    if(!$stmt){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Vorbereiten des Statements: ' . $conn->error
-        ];
+    if (!$stmt) {
+        return ['error' => 'DB_PREPARE_FAILED'];
     }
 
-    if(!$stmt->bind_param('i', $code)){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Binden der Parameter: ' . $stmt->error
-        ];
-    }
-
-    if(!$stmt->execute()){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Ausführen: ' . $stmt->error
-        ];
-    }
+    $stmt->bind_param('i', $ticketId);
+    $stmt->execute();
 
     $result = $stmt->get_result();
 
-    if($result->num_rows === 0){
-        return [
-            'success' => false,
-            'message' => 'Ticket nicht gefunden'
-        ];
+    if ($result->num_rows === 0) {
+        return ['ticket' => null];
     }
 
-    $ticket = $result->fetch_assoc();
-
-    return [
-        'success' => true,
-        'message' => 'Ticket wurde gefunden',
-        'ticket' => $ticket
-    ];
+    return ['ticket' => $result->fetch_assoc()];
 }
 
-function checkAlreadyIn($conn, $code){
-    $stmt = $conn->prepare("SELECT 1 FROM entrance WHERE ticket_id = ? LIMIT 1");
-    if(!$stmt){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Vorbereiten des Statements: ' . $conn->error
-        ];
+
+/*
+|--------------------------------------------------------------------------
+| COUNT ENTRANCES
+|--------------------------------------------------------------------------
+*/
+
+function getEntranceCount($conn, $ticketId)
+{
+    $stmt = $conn->prepare(
+        "SELECT COUNT(*) AS scans FROM entrance WHERE ticket_id = ?"
+    );
+
+    if (!$stmt) {
+        return ['error' => 'DB_PREPARE_FAILED'];
     }
 
-    if(!$stmt->bind_param('i', $code)){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Binden der Parameter: ' . $stmt->error
-        ];
-    }
+    $stmt->bind_param('i', $ticketId);
+    $stmt->execute();
 
-    if(!$stmt->execute()){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Ausführen: ' . $stmt->error
-        ];
-    }
+    $result = $stmt->get_result()->fetch_assoc();
 
-    $result = $stmt->get_result();
-
-    if($result->num_rows > 0){
-        return [
-            'success' => true,
-            'already_inside' => true,
-            'message' => 'Ticket wurde bereits eingelassen'
-        ];
-    }
-
-    return [
-        'success' => true,
-        'already_inside' => false,
-        'message' => 'Ticket noch nicht eingelassen'
-    ];
+    return ['scans' => (int)$result['scans']];
 }
 
-function registerEntrance($conn, $ticketId, $userId){
-    $stmt = $conn->prepare("INSERT INTO entrance (ticket_id, user_id) VALUES (?, ?)");
 
-    if(!$stmt){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Vorbereiten des Statements: ' . $conn->error
-        ];
+/*
+|--------------------------------------------------------------------------
+| REGISTER ENTRANCE
+|--------------------------------------------------------------------------
+*/
+
+function registerEntrance($conn, $ticketId, $userId)
+{
+    $stmt = $conn->prepare(
+        "INSERT INTO entrance (ticket_id, user_id) VALUES (?, ?)"
+    );
+
+    if (!$stmt) {
+        return false;
     }
 
-    if(!$stmt->bind_param('ii', $ticketId, $userId)){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Binden der Parameter: ' . $stmt->error
-        ];
-    }
+    $stmt->bind_param('ii', $ticketId, $userId);
 
-    if(!$stmt->execute()){
-        return [
-            'success' => false,
-            'message' => 'Fehler beim Ausführen: ' . $stmt->error
-        ];
-    }
-
-    return [
-        'success' => true,
-        'message' => 'Einlass erfolgreich registriert'
-    ];
+    return $stmt->execute();
 }
 
-/**
- * 
- * ==================================================================================================
- * STARTING CHECK: IS TICKET ALREADY IN?
- * ==================================================================================================
- * 
- */
 
-$ticket = searchTicket($conn, $code);
-$check = checkAlreadyIn($conn, $code);
+/*
+|--------------------------------------------------------------------------
+| VALIDATION
+|--------------------------------------------------------------------------
+*/
 
-if(!$check['success']){
-    echo json_encode($check);
-    exit;
+if (!$code) {
+    respond(false, 'Ungültiger Ticketcode', 'INVALID_CODE');
 }
 
-if($check['already_inside']){
-    echo json_encode([
-        'success' => false,
-        'message' => 'Ticket wurde bereits eingelassen',
+
+/*
+|--------------------------------------------------------------------------
+| LOAD TICKET
+|--------------------------------------------------------------------------
+*/
+
+$result = getTicket($conn, $code);
+
+if (isset($result['error'])) {
+    respond(false, 'Datenbankfehler beim Laden des Tickets', $result['error']);
+}
+
+$ticket = $result['ticket'];
+
+if (!$ticket) {
+    respond(false, 'Ticket nicht gefunden', 'TICKET_NOT_FOUND');
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CHECK PAYMENT
+|--------------------------------------------------------------------------
+*/
+
+if ((int)$ticket['confirmed'] === 0) {
+    respond(false, 'Ticket ist noch nicht bezahlt', 'TICKET_NOT_PAID', [
         'ticket' => $ticket
     ]);
-    exit;
 }
 
-/**
- * 
- * ==================================================================================================
- * ONGOING: TICKET NOT ENTERED YET
- * ==================================================================================================
- * 
- */
 
-$result = registerEntrance($conn, $code, $userId);
+/*
+|--------------------------------------------------------------------------
+| COUNT SCANS
+|--------------------------------------------------------------------------
+*/
 
-echo json_encode([
-    $result, 
-    'ticket' => $ticket
+$countResult = getEntranceCount($conn, $ticket['id']);
+
+if (isset($countResult['error'])) {
+    respond(false, 'Fehler beim Prüfen des Einlasses', $countResult['error'], [
+        'ticket' => $ticket
+    ]);
+}
+
+$scans = $countResult['scans'];
+$max = (int)$ticket['ticketCount'];
+
+
+/*
+|--------------------------------------------------------------------------
+| CHECK LIMIT
+|--------------------------------------------------------------------------
+*/
+
+if ($scans >= $max) {
+
+    respond(false, 'Alle Personen dieses Tickets sind bereits eingelassen', 'TICKET_FULL', [
+        'ticket' => $ticket,
+        'scans' => $scans,
+        'max' => $max
+    ]);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| REGISTER ENTRANCE
+|--------------------------------------------------------------------------
+*/
+
+if (!registerEntrance($conn, $ticket['id'], $userId)) {
+    respond(false, 'Fehler beim Registrieren des Einlasses', 'ENTRANCE_INSERT_FAILED', [
+        'ticket' => $ticket
+    ]);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SUCCESS
+|--------------------------------------------------------------------------
+*/
+
+respond(true, 'Einlass erfolgreich registriert', null, [
+    'ticket' => $ticket,
+    'scans' => $scans + 1,
+    'max' => $max
 ]);
-
-/**
- * 
- * ==================================================================================================
- * CHECKS FOR REQUIRED FIELDS
- * ==================================================================================================
- * 
- */
-
-// ✅ Checks successfull - ongoing
-
-/**
- * 
- * ==================================================================================================
- * NO DUPLICATES FOUND - INSERT THE PERSON INTO THE TICKETS DATABASE
- * ==================================================================================================
- * 
- */
